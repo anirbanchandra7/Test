@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Vertical WMS – Water Management System for the UAE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       VERTICAL WMS – Custom Styles
+       Design refs: LangChain precision + Apple iOS elegance
+    ============================================= */
+
+    :root {
+      --wms-navy:       #1a2455;
+      --wms-navy-dark:  #0f1640;
+      --wms-navy-mid:   #233080;
+      --wms-teal:       #0ea5e9;
+      --wms-teal-dark:  #0284c7;
+      --wms-cyan:       #06b6d4;
+      --wms-lime:       #a3e635;
+      --wms-white:      #ffffff;
+      --wms-gray-50:    #f8fafc;
+      --wms-gray-100:   #f1f5f9;
+      --wms-gray-200:   #e2e8f0;
+      --wms-gray-500:   #64748b;
+      --wms-gray-700:   #334155;
+      --wms-gray-900:   #0f172a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+      color: var(--wms-gray-700);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      margin: 0;
+    }
+
+    /* ---- NAVBAR ---- */
+    .wms-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--wms-gray-200);
+      padding: 0 2rem;
+    }
+    .wms-navbar .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .wms-logo {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .wms-logo-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--wms-navy);
+      letter-spacing: -0.04em;
+    }
+    .wms-logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--wms-lime);
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 1px;
+    }
+    .wms-nav-links {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 2rem;
+    }
+    .wms-nav-links a {
+      text-decoration: none;
+      color: var(--wms-gray-700);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .wms-nav-links a:hover { color: var(--wms-teal); }
+    .wms-btn-primary {
+      background: var(--wms-teal);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-block;
+    }
+    .wms-btn-primary:hover {
+      background: var(--wms-teal-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(14,165,233,0.35);
+      color: white;
+      text-decoration: none;
+    }
+    .wms-btn-outline {
+      background: transparent;
+      color: var(--wms-navy);
+      border: 1.5px solid var(--wms-gray-200);
+      border-radius: 50px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .wms-btn-outline:hover {
+      border-color: var(--wms-teal);
+      color: var(--wms-teal);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+    .wms-btn-white {
+      background: white;
+      color: var(--wms-navy);
+      border: none;
+      border-radius: 50px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .wms-btn-white:hover {
+      background: var(--wms-gray-100);
+      color: var(--wms-navy);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+    .wms-btn-ghost {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 50px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .wms-btn-ghost:hover {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    /* ---- HERO ---- */
+    .wms-hero {
+      background: linear-gradient(135deg, var(--wms-navy-dark) 0%, var(--wms-navy) 50%, var(--wms-navy-mid) 100%);
+      color: white;
+      padding: 80px 2rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .wms-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    /* Wave decorations */
+    .wms-hero::after {
+      content: '';
+      position: absolute;
+      right: -80px;
+      top: 40px;
+      width: 420px;
+      height: 340px;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 80 Q100 20 200 80 Q300 140 400 80' stroke='rgba(255,255,255,0.07)' stroke-width='40' fill='none' stroke-linecap='round'/%3E%3Cpath d='M0 150 Q100 90 200 150 Q300 210 400 150' stroke='rgba(255,255,255,0.05)' stroke-width='40' fill='none' stroke-linecap='round'/%3E%3Cpath d='M0 220 Q100 160 200 220 Q300 280 400 220' stroke='rgba(255,255,255,0.04)' stroke-width='40' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center center;
+      background-size: contain;
+      pointer-events: none;
+    }
+    .wms-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+    }
+    .wms-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(163,230,53,0.15);
+      border: 1px solid rgba(163,230,53,0.3);
+      border-radius: 50px;
+      padding: 5px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--wms-lime);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .wms-hero-badge span.dot {
+      width: 6px;
+      height: 6px;
+      background: var(--wms-lime);
+      border-radius: 50%;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.8); }
+    }
+    .wms-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      color: white;
+      margin-bottom: 1.25rem;
+    }
+    .wms-hero h1 span {
+      color: var(--wms-teal);
+    }
+    .wms-hero p {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+    }
+    .wms-hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .wms-hero-right {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+    /* Apple iOS-style floating dashboard card */
+    .wms-hero-card {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+    }
+    .wms-hero-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .wms-hero-card-title {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .wms-status-badge {
+      background: rgba(163,230,53,0.2);
+      color: var(--wms-lime);
+      border-radius: 50px;
+      padding: 3px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .wms-metric-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .wms-metric {
+      background: rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+    .wms-metric-val {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .wms-metric-val span {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--wms-teal);
+    }
+    .wms-metric-label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      font-weight: 500;
+    }
+    .wms-route-bar {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .wms-route-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--wms-teal);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .wms-route-info { flex: 1; }
+    .wms-route-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 0.2rem;
+    }
+    .wms-route-sub {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .wms-progress-wrap {
+      width: 60px;
+    }
+    .wms-progress-ring {
+      transform: rotate(-90deg);
+    }
+    /* floating badges */
+    .wms-float-badge {
+      position: absolute;
+      background: white;
+      border-radius: 50px;
+      padding: 6px 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--wms-navy);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      white-space: nowrap;
+    }
+    .wms-float-badge.left { left: -40px; top: 30%; }
+    .wms-float-badge.right { right: -20px; top: 50%; }
+
+    /* ---- STATS STRIP ---- */
+    .wms-stats {
+      background: var(--wms-gray-50);
+      padding: 3.5rem 2rem;
+      border-bottom: 1px solid var(--wms-gray-200);
+    }
+    .wms-stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      align-items: center;
+    }
+    .wms-stat-item {
+      text-align: center;
+    }
+    .wms-stat-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--wms-navy);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .wms-stat-num span { color: var(--wms-teal); }
+    .wms-stat-label {
+      font-size: 0.82rem;
+      color: var(--wms-gray-500);
+      font-weight: 500;
+    }
+    .wms-stat-divider {
+      width: 1px;
+      height: 48px;
+      background: var(--wms-gray-200);
+      justify-self: center;
+    }
+
+    /* ---- SECTION WRAPPER ---- */
+    .wms-section {
+      padding: 80px 2rem;
+    }
+    .wms-section-dark {
+      padding: 80px 2rem;
+      background: linear-gradient(135deg, var(--wms-navy-dark) 0%, var(--wms-navy) 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .wms-section-dark::before {
+      content: '';
+      position: absolute;
+      right: 0; bottom: 0;
+      width: 500px; height: 400px;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 500 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 Q125 40 250 100 Q375 160 500 100' stroke='rgba(255,255,255,0.04)' stroke-width='50' fill='none' stroke-linecap='round'/%3E%3Cpath d='M0 200 Q125 140 250 200 Q375 260 500 200' stroke='rgba(255,255,255,0.03)' stroke-width='50' fill='none' stroke-linecap='round'/%3E%3Cpath d='M0 300 Q125 240 250 300 Q375 360 500 300' stroke='rgba(255,255,255,0.025)' stroke-width='50' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat;
+      background-size: contain;
+      pointer-events: none;
+    }
+    .wms-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .wms-section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--wms-teal);
+      margin-bottom: 0.75rem;
+    }
+    .wms-section-label-light {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(163,230,53,0.9);
+      margin-bottom: 0.75rem;
+    }
+    .wms-section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--wms-gray-900);
+      margin-bottom: 1rem;
+    }
+    .wms-section-title-light {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: white;
+      margin-bottom: 1rem;
+    }
+    .wms-section-subtitle {
+      font-size: 1rem;
+      color: var(--wms-gray-500);
+      line-height: 1.65;
+      max-width: 560px;
+    }
+    .wms-section-subtitle-light {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+    }
+    .wms-text-center { text-align: center; }
+    .wms-text-center .wms-section-subtitle { margin: 0 auto; }
+
+    /* ---- FEATURE CARDS ---- */
+    .wms-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .wms-feature-card {
+      background: white;
+      border: 1px solid var(--wms-gray-200);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+    }
+    .wms-feature-card:hover {
+      box-shadow: 0 12px 40px rgba(14,165,233,0.1);
+      transform: translateY(-3px);
+      border-color: rgba(14,165,233,0.3);
+    }
+    .wms-feature-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, rgba(14,165,233,0.1), rgba(6,182,212,0.1));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: var(--wms-teal);
+    }
+    .wms-feature-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--wms-gray-900);
+      margin-bottom: 0.5rem;
+    }
+    .wms-feature-card p {
+      font-size: 0.88rem;
+      color: var(--wms-gray-500);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* ---- PANELS GRID ---- */
+    .wms-panels-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .wms-panel-card {
+      background: white;
+      border: 1px solid var(--wms-gray-200);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .wms-panel-card:hover {
+      box-shadow: 0 16px 48px rgba(26,36,85,0.1);
+      transform: translateY(-4px);
+    }
+    .wms-panel-icon-wrap {
+      width: 56px;
+      height: 56px;
+      background: var(--wms-navy);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      color: white;
+    }
+    .wms-panel-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--wms-gray-900);
+      margin-bottom: 1.25rem;
+    }
+    .wms-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .wms-checklist li {
+      display: flex;
+      gap: 0.6rem;
+      align-items: flex-start;
+      margin-bottom: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--wms-gray-600);
+    }
+    .wms-checklist li::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      background: var(--wms-teal);
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 2px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8l3.5 3.5L13 5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: contain;
+    }
+
+    /* ---- HOW IT WORKS ---- */
+    .wms-how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 4rem;
+      position: relative;
+    }
+    .wms-how-grid::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(16.66% + 28px);
+      right: calc(16.66% + 28px);
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+      border-top: 2px dashed rgba(255,255,255,0.2);
+    }
+    .wms-how-step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .wms-step-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: white;
+      margin: 0 auto 1.5rem;
+    }
+    .wms-step-num.active {
+      background: var(--wms-teal);
+      border-color: var(--wms-teal);
+    }
+    .wms-how-step h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.6rem;
+    }
+    .wms-how-step p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+    }
+    .wms-how-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 3rem;
+    }
+
+    /* ---- ABOUT SPLIT ---- */
+    .wms-about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .wms-about-visual {
+      background: linear-gradient(135deg, var(--wms-gray-100), white);
+      border: 1px solid var(--wms-gray-200);
+      border-radius: 24px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .wms-about-visual::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60 Q100 20 200 60 Q300 100 400 60' stroke='%230ea5e9' stroke-opacity='0.06' stroke-width='30' fill='none'/%3E%3Cpath d='M0 120 Q100 80 200 120 Q300 160 400 120' stroke='%230ea5e9' stroke-opacity='0.05' stroke-width='30' fill='none'/%3E%3Cpath d='M0 180 Q100 140 200 180 Q300 220 400 180' stroke='%230ea5e9' stroke-opacity='0.04' stroke-width='30' fill='none'/%3E%3C/svg%3E") no-repeat bottom;
+      background-size: cover;
+      pointer-events: none;
+    }
+    .wms-kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .wms-kpi-box {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    .wms-kpi-val {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--wms-navy);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .wms-kpi-val span { color: var(--wms-teal); }
+    .wms-kpi-label {
+      font-size: 0.78rem;
+      color: var(--wms-gray-500);
+      font-weight: 500;
+    }
+    .wms-kpi-full {
+      grid-column: 1 / -1;
+      background: var(--wms-navy);
+      color: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .wms-kpi-full-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .wms-about-content h2 {
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--wms-gray-900);
+      margin-bottom: 1rem;
+    }
+    .wms-about-content p {
+      color: var(--wms-gray-500);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .wms-check-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2rem;
+    }
+    .wms-check-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--wms-gray-700);
+    }
+    .wms-check-list li svg { color: var(--wms-teal); flex-shrink: 0; }
+
+    /* ---- TESTIMONIALS ---- */
+    .wms-testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .wms-testi-card {
+      background: white;
+      border: 1px solid var(--wms-gray-200);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .wms-testi-card:hover {
+      box-shadow: 0 12px 40px rgba(26,36,85,0.08);
+      transform: translateY(-3px);
+    }
+    .wms-quote-icon {
+      color: rgba(14,165,233,0.2);
+      margin-bottom: 1rem;
+    }
+    .wms-testi-card blockquote {
+      font-size: 0.95rem;
+      font-style: italic;
+      font-weight: 500;
+      color: var(--wms-gray-700);
+      line-height: 1.65;
+      margin: 0 0 1.5rem;
+    }
+    .wms-testi-user {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .wms-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--wms-navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+    .wms-testi-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--wms-gray-900);
+      margin-bottom: 0.1rem;
+    }
+    .wms-testi-role {
+      font-size: 0.78rem;
+      color: var(--wms-gray-500);
+    }
+
+    /* ---- PRICING ---- */
+    .wms-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .wms-price-card {
+      background: white;
+      border: 1.5px solid var(--wms-gray-200);
+      border-radius: 24px;
+      padding: 2rem;
+      position: relative;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .wms-price-card:hover {
+      box-shadow: 0 16px 48px rgba(26,36,85,0.08);
+      transform: translateY(-3px);
+    }
+    .wms-price-card.featured {
+      background: var(--wms-navy);
+      border-color: var(--wms-navy);
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(26,36,85,0.25);
+    }
+    .wms-price-card.featured:hover {
+      transform: translateY(-12px);
+    }
+    .wms-popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--wms-teal);
+      color: white;
+      border-radius: 50px;
+      padding: 4px 14px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .wms-plan-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--wms-teal);
+      margin-bottom: 0.75rem;
+    }
+    .wms-price-card.featured .wms-plan-label {
+      color: rgba(163,230,53,0.9);
+    }
+    .wms-plan-name {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--wms-gray-900);
+      margin-bottom: 0.25rem;
+    }
+    .wms-price-card.featured .wms-plan-name { color: white; }
+    .wms-plan-desc {
+      font-size: 0.82rem;
+      color: var(--wms-gray-500);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .wms-price-card.featured .wms-plan-desc { color: rgba(255,255,255,0.6); }
+    .wms-price-divider {
+      border: none;
+      border-top: 1px solid var(--wms-gray-200);
+      margin: 1.5rem 0;
+    }
+    .wms-price-card.featured .wms-price-divider { border-color: rgba(255,255,255,0.12); }
+    .wms-pay-row {
+      margin-bottom: 1rem;
+    }
+    .wms-pay-method {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--wms-gray-400);
+      margin-bottom: 0.2rem;
+    }
+    .wms-price-card.featured .wms-pay-method { color: rgba(255,255,255,0.4); }
+    .wms-price-amount {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--wms-gray-900);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .wms-price-card.featured .wms-price-amount { color: white; }
+    .wms-price-period {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--wms-gray-500);
+      margin-left: 2px;
+    }
+    .wms-price-card.featured .wms-price-period { color: rgba(255,255,255,0.5); }
+    .wms-price-note {
+      font-size: 0.75rem;
+      color: var(--wms-gray-400);
+      font-style: italic;
+      margin-top: 0.25rem;
+    }
+    .wms-price-card.featured .wms-price-note { color: rgba(255,255,255,0.35); }
+    .wms-price-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem;
+    }
+    .wms-price-features li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--wms-gray-600);
+      margin-bottom: 0.6rem;
+    }
+    .wms-price-card.featured .wms-price-features li { color: rgba(255,255,255,0.75); }
+    .wms-price-features li svg { flex-shrink: 0; color: var(--wms-teal); }
+    .wms-price-card.featured .wms-price-features li svg { color: var(--wms-lime); }
+    .wms-price-addon {
+      background: var(--wms-gray-50);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font-size: 0.8rem;
+      color: var(--wms-gray-600);
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--wms-gray-200);
+    }
+    .wms-price-card.featured .wms-price-addon {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.65);
+    }
+    .wms-price-cta {
+      display: block;
+      text-align: center;
+      padding: 0.8rem 1rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .wms-price-cta.outline {
+      border: 1.5px solid var(--wms-gray-300);
+      color: var(--wms-gray-700);
+    }
+    .wms-price-cta.outline:hover {
+      border-color: var(--wms-teal);
+      color: var(--wms-teal);
+      text-decoration: none;
+    }
+    .wms-price-cta.filled {
+      background: var(--wms-teal);
+      color: white;
+      border: none;
+    }
+    .wms-price-cta.filled:hover {
+      background: var(--wms-teal-dark);
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(14,165,233,0.4);
+    }
+    .wms-price-cta.dark-outline {
+      border: 1.5px solid rgba(255,255,255,0.25);
+      color: white;
+    }
+    .wms-price-cta.dark-outline:hover {
+      border-color: white;
+      background: rgba(255,255,255,0.08);
+      text-decoration: none;
+    }
+    .wms-billing-note {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--wms-gray-400);
+      margin-top: 2rem;
+    }
+
+    /* ---- FAQ ---- */
+    .wms-faq-wrap {
+      max-width: 680px;
+      margin: 3rem auto 0;
+    }
+    .wms-faq-item {
+      background: white;
+      border: 1px solid var(--wms-gray-200);
+      border-radius: 16px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .wms-faq-item:hover { border-color: rgba(14,165,233,0.3); }
+    .wms-faq-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--wms-gray-800);
+      text-align: left;
+      gap: 1rem;
+    }
+    .wms-faq-trigger:hover { color: var(--wms-teal); }
+    .wms-faq-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--wms-gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .wms-faq-item.open .wms-faq-icon {
+      background: var(--wms-teal);
+      transform: rotate(45deg);
+    }
+    .wms-faq-item.open .wms-faq-icon svg { color: white; }
+    .wms-faq-body {
+      display: none;
+      padding: 0 1.5rem 1.25rem;
+      font-size: 0.88rem;
+      color: var(--wms-gray-500);
+      line-height: 1.65;
+    }
+    .wms-faq-item.open .wms-faq-body { display: block; }
+
+    /* ---- FOOTER ---- */
+    .wms-footer {
+      background: var(--wms-navy-dark);
+      color: rgba(255,255,255,0.55);
+      padding: 4rem 2rem 2rem;
+    }
+    .wms-footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .wms-footer-brand p {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      margin-top: 1rem;
+    }
+    .wms-footer-col h4 {
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+    .wms-footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .wms-footer-col li { margin-bottom: 0.6rem; }
+    .wms-footer-col a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .wms-footer-col a:hover { color: white; }
+    .wms-footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      gap: 1rem;
+    }
+    .wms-footer-bottom a { color: rgba(255,255,255,0.5); }
+    .wms-footer-bottom a:hover { color: white; }
+    .wms-status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+    .wms-status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--wms-lime);
+      border-radius: 50%;
+      box-shadow: 0 0 6px var(--wms-lime);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 992px) {
+      .wms-hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .wms-hero-right { display: none; }
+      .wms-panels-grid { grid-template-columns: 1fr; }
+      .wms-how-grid { grid-template-columns: 1fr; }
+      .wms-how-grid::before { display: none; }
+      .wms-about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .wms-pricing-grid { grid-template-columns: 1fr; }
+      .wms-price-card.featured { transform: none; }
+      .wms-footer-grid { grid-template-columns: 1fr 1fr; }
+      .wms-nav-links { display: none; }
+    }
+    @media (max-width: 576px) {
+      .wms-section, .wms-section-dark { padding: 60px 1.25rem; }
+      .wms-footer-grid { grid-template-columns: 1fr; }
+      .wms-footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="wms-navbar">
+  <div class="nav-inner">
+    <a href="#" class="wms-logo">
+      <span class="wms-logo-text">VERTICAL<span class="wms-logo-dot"></span></span>
+    </a>
+    <ul class="wms-nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#panels">Panels</a></li>
+      <li><a href="#howItWorks">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#pricing" class="wms-btn-primary">Get a Demo</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="wms-hero">
+  <div class="wms-hero-inner">
+    <!-- Left -->
+    <div class="wms-hero-left">
+      <div class="wms-hero-badge">
+        <span class="dot"></span>
+        Built for the UAE
+      </div>
+      <h1>Water Management,<br><span>Digitised</span> for the UAE</h1>
+      <p>The all-in-one platform that powers your water distribution fleet — from order intake and route optimisation to driver dispatch and customer self-service. All white-labelled to your brand.</p>
+      <div class="wms-hero-btns">
+        <a href="#pricing" class="wms-btn-primary">Get a Demo</a>
+        <a href="#features" class="wms-btn-ghost">Explore Features</a>
+      </div>
+    </div>
+
+    <!-- Right – iOS-style dashboard card -->
+    <div class="wms-hero-right">
+      <div style="position:relative; padding: 20px 40px 0;">
+        <div class="wms-float-badge left">
+          <svg width="12" height="12" style="margin-right:5px;" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" fill="#a3e635"/></svg>
+          Route Optimised
+        </div>
+        <div class="wms-float-badge right" style="top:45%;">
+          <svg width="12" height="12" style="margin-right:5px;" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" fill="#0ea5e9"/></svg>
+          WhatsApp Orders
+        </div>
+
+        <div class="wms-hero-card">
+          <div class="wms-hero-card-header">
+            <span class="wms-hero-card-title">Today's Operations</span>
+            <span class="wms-status-badge">Live</span>
+          </div>
+          <div class="wms-metric-row">
+            <div class="wms-metric">
+              <div class="wms-metric-val">142<span> ↑</span></div>
+              <div class="wms-metric-label">Orders Today</div>
+            </div>
+            <div class="wms-metric">
+              <div class="wms-metric-val">98<span>%</span></div>
+              <div class="wms-metric-label">Delivery Rate</div>
+            </div>
+            <div class="wms-metric">
+              <div class="wms-metric-val">18</div>
+              <div class="wms-metric-label">Active Drivers</div>
+            </div>
+            <div class="wms-metric">
+              <div class="wms-metric-val">2,000</div>
+              <div class="wms-metric-label">Customers</div>
+            </div>
+          </div>
+          <div class="wms-route-bar">
+            <div class="wms-route-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/></svg>
+            </div>
+            <div class="wms-route-info">
+              <div class="wms-route-name">Route A – Dubai Marina</div>
+              <div class="wms-route-sub">32 stops · 94% complete</div>
+            </div>
+            <svg width="36" height="36" viewBox="0 0 36 36">
+              <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="3"/>
+              <circle cx="18" cy="18" r="14" fill="none" stroke="#a3e635" stroke-width="3" stroke-dasharray="87.96 87.96" stroke-dashoffset="5.28" class="wms-progress-ring" style="transform-origin:center; transform:rotate(-90deg);"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS STRIP ===== -->
+<div class="wms-stats">
+  <div class="wms-stats-inner">
+    <div class="wms-stat-item">
+      <div class="wms-stat-num">2,000<span>+</span></div>
+      <div class="wms-stat-label">Customers Managed</div>
+    </div>
+    <div class="wms-stat-divider"></div>
+    <div class="wms-stat-item">
+      <div class="wms-stat-num">25<span>+</span></div>
+      <div class="wms-stat-label">Driver Seats (Growth)</div>
+    </div>
+    <div class="wms-stat-divider"></div>
+    <div class="wms-stat-item">
+      <div class="wms-stat-num">100<span>%</span></div>
+      <div class="wms-stat-label">White-Labelled</div>
+    </div>
+    <div class="wms-stat-divider"></div>
+    <div class="wms-stat-item">
+      <div class="wms-stat-num">3</div>
+      <div class="wms-stat-label">Panels: Admin, Customer, Driver</div>
+    </div>
+    <div class="wms-stat-divider"></div>
+    <div class="wms-stat-item">
+      <div class="wms-stat-num">UAE</div>
+      <div class="wms-stat-label">Built for Local Compliance</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<section class="wms-section" id="features">
+  <div class="wms-container">
+    <div class="wms-text-center">
+      <div class="wms-section-label">Platform Capabilities</div>
+      <h2 class="wms-section-title">Everything you need to run<br>a modern water fleet</h2>
+      <p class="wms-section-subtitle">From catalogue management and WhatsApp automation to optimised delivery routes — Vertical WMS gives you end-to-end operational control.</p>
+    </div>
+
+    <div class="wms-features-grid">
+      <!-- 1 -->
+      <div class="wms-feature-card">
+        <div class="wms-feature-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Order Management</h3>
+        <p>One-off and recurring orders via web, app, and WhatsApp — with real-time status updates for every customer.</p>
+      </div>
+      <!-- 2 -->
+      <div class="wms-feature-card">
+        <div class="wms-feature-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/></svg>
+        </div>
+        <h3>Route Optimisation</h3>
+        <p>Algorithmically optimised delivery routes served to driver apps daily — cutting fuel costs and missed deliveries.</p>
+      </div>
+      <!-- 3 -->
+      <div class="wms-feature-card">
+        <div class="wms-feature-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+        </div>
+        <h3>WhatsApp Automation</h3>
+        <p>End-to-end WhatsApp ordering pipeline — customers place, modify, and track orders without calling your team.</p>
+      </div>
+      <!-- 4 -->
+      <div class="wms-feature-card">
+        <div class="wms-feature-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8l5 3-5 3V8z"/><path d="M1 17l6 4 6-4"/></svg>
+        </div>
+        <h3>Subscription Management</h3>
+        <p>Flexible subscription plans with auto-renewal, pause and cancel — all manageable by your customer portal.</p>
+      </div>
+      <!-- 5 -->
+      <div class="wms-feature-card">
+        <div class="wms-feature-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>Finance & Revenue Reports</h3>
+        <p>Per-driver, per-route and per-site revenue reports with expected vs actual reconciliation built in.</p>
+      </div>
+      <!-- 6 -->
+      <div class="wms-feature-card">
+        <div class="wms-feature-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>White-Label Ready</h3>
+        <p>Deploy under your own brand across Admin, Customer and Driver panels — fully customised to your identity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PANELS ===== -->
+<section class="wms-section" style="background: var(--wms-gray-50); padding-top: 0;" id="panels">
+  <div class="wms-container" style="padding-top: 80px;">
+    <div class="wms-text-center">
+      <div class="wms-section-label">Every Plan Includes</div>
+      <h2 class="wms-section-title">The full Vertical WMS core feature set</h2>
+      <p class="wms-section-subtitle">Both plans ship with the complete Admin, Customer and Driver experience. The difference is scale, channels and a few add-ons — not feature gaps.</p>
+    </div>
+
+    <div class="wms-panels-grid">
+      <!-- Admin Panel -->
+      <div class="wms-panel-card">
+        <div class="wms-panel-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Admin Panel (Web)</h3>
+        <ul class="wms-checklist">
+          <li>Product catalogue &amp; operations setup</li>
+          <li>Order management &amp; WhatsApp ordering</li>
+          <li>Delivery management &amp; route planning</li>
+          <li>Customer &amp; subscription management</li>
+          <li>Driver / on-site management</li>
+          <li>Finance reports: revenue, expected revenue, per driver / site / route</li>
+        </ul>
+      </div>
+
+      <!-- Customer Panel -->
+      <div class="wms-panel-card">
+        <div class="wms-panel-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <h3>Customer Panel (Web &amp; App)</h3>
+        <ul class="wms-checklist">
+          <li>Place new orders (one-off or recurring)</li>
+          <li>Real-time order status updates</li>
+          <li>Subscription view &amp; management</li>
+          <li>Support requests &amp; resolution tracking</li>
+          <li>In-app / in-portal messages</li>
+          <li>Rewards, referrals &amp; order history</li>
+        </ul>
+      </div>
+
+      <!-- Driver Panel -->
+      <div class="wms-panel-card">
+        <div class="wms-panel-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <h3>Driver Panel (App)</h3>
+        <ul class="wms-checklist">
+          <li>Daily dashboard: shift, trips, cash, earnings</li>
+          <li>Orders allocated for the day</li>
+          <li>Optimised delivery route</li>
+          <li>Delivery marking (delivered / failed)</li>
+          <li>Return empty bottle tracker</li>
+          <li>Cash &amp; receipt reconciliation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="wms-section-dark" id="howItWorks">
+  <div class="wms-container" style="position:relative; z-index:1;">
+    <div class="wms-text-center">
+      <div class="wms-section-label-light">Getting Started</div>
+      <h2 class="wms-section-title-light">Go live in 3 simple steps</h2>
+      <p class="wms-section-subtitle-light" style="max-width:520px; margin:0 auto;">Simple, supported, and designed to fit the way you operate. From setup to first delivery, we guide every step so your fleet sees value from day one.</p>
+    </div>
+
+    <div class="wms-how-grid">
+      <div class="wms-how-step">
+        <div class="wms-step-num">1</div>
+        <h3>Set Up Your Catalogue</h3>
+        <p>Configure your product range, pricing, zones and delivery schedules in the Admin Panel — takes under an hour.</p>
+      </div>
+      <div class="wms-how-step">
+        <div class="wms-step-num">2</div>
+        <h3>Onboard Your Fleet</h3>
+        <p>Add driver accounts, assign routes and upload your customer base. The Driver App is ready to use immediately.</p>
+      </div>
+      <div class="wms-how-step">
+        <div class="wms-step-num active">3</div>
+        <h3>Start Delivering</h3>
+        <p>Customers order via web, app or WhatsApp. Drivers get optimised routes. You get real-time visibility and reports.</p>
+      </div>
+    </div>
+
+    <div class="wms-how-buttons">
+      <a href="#pricing" class="wms-btn-primary">Get a Demo</a>
+      <a href="#features" class="wms-btn-ghost">View All Features</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT / PLATFORM DEEP DIVE ===== -->
+<section class="wms-section">
+  <div class="wms-container">
+    <div class="wms-about-grid">
+      <!-- Visual – Apple iOS-style KPI dashboard -->
+      <div class="wms-about-visual">
+        <div class="wms-kpi-grid">
+          <div class="wms-kpi-box">
+            <div class="wms-kpi-val">AED 4<span>K</span></div>
+            <div class="wms-kpi-label">Starter / month</div>
+          </div>
+          <div class="wms-kpi-box">
+            <div class="wms-kpi-val">25</div>
+            <div class="wms-kpi-label">Driver seats (Growth)</div>
+          </div>
+          <div class="wms-kpi-box">
+            <div class="wms-kpi-val">500</div>
+            <div class="wms-kpi-label">Customer accounts (Starter)</div>
+          </div>
+          <div class="wms-kpi-box">
+            <div class="wms-kpi-val">∞</div>
+            <div class="wms-kpi-label">Integrations (Enterprise)</div>
+          </div>
+          <div class="wms-kpi-full">
+            <div class="wms-kpi-full-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:0.9rem; font-weight:700; color:white; margin-bottom:0.2rem;">WhatsApp Automation</div>
+              <div style="font-size:0.78rem; color:rgba(255,255,255,0.55);">Included in Growth · AED 2 per active customer/mo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="wms-about-content">
+        <div class="wms-section-label">Why Vertical WMS</div>
+        <h2>Built for water distributors, not adapted for them</h2>
+        <p>Most fleet software is generic. Vertical WMS was designed from the ground up for UAE bottled water distribution — with the workflows, compliance considerations and customer expectations of this specific market baked in.</p>
+        <ul class="wms-check-list">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Empty bottle tracking built into every delivery run
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Cash and receipt reconciliation for every driver shift
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Rewards &amp; referral system to grow your customer base
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Lifetime licence option — own it outright, no recurring lock-in
+          </li>
+        </ul>
+        <a href="#pricing" class="wms-btn-primary">See Pricing</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="wms-section" style="background: var(--wms-gray-50);" id="testimonials">
+  <div class="wms-container">
+    <div class="wms-text-center">
+      <div class="wms-section-label">Customer Stories</div>
+      <h2 class="wms-section-title">Trusted by UAE water distributors</h2>
+      <p class="wms-section-subtitle">Our clients don't just work with us — they grow with us. Here's what operators across the UAE say about running on Vertical WMS.</p>
+    </div>
+
+    <div class="wms-testimonials-grid">
+      <!-- 1 -->
+      <div class="wms-testi-card">
+        <div class="wms-quote-icon">
+          <svg width="36" height="25" viewBox="0 0 43 30" fill="none"><path d="M4.25 30L10 20C7.25 20 4.9 19.02 2.94 17.06 .98 15.1 0 12.75 0 10 0 7.25 .98 4.9 2.94 2.94 4.9 .98 7.25 0 10 0c2.75 0 5.1.98 7.06 2.94C19.02 4.9 20 7.25 20 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L10 30H4.25zm22.5 0L32.5 20c-2.75 0-5.1-.98-7.06-2.94C23.48 15.1 22.5 12.75 22.5 10c0-2.75.98-5.1 2.94-7.06C27.4.98 29.75 0 32.5 0c2.75 0 5.1.98 7.06 2.94C41.52 4.9 42.5 7.25 42.5 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L32.5 30H26.75z" fill="#0ea5e9" fill-opacity=".18"/></svg>
+        </div>
+        <blockquote>"Vertical WMS replaced three different spreadsheets and a WhatsApp group. Our delivery accuracy jumped from 76% to 97% in the first month. It paid for itself in 6 weeks."</blockquote>
+        <div class="wms-testi-user">
+          <div class="wms-avatar">AK</div>
+          <div>
+            <div class="wms-testi-name">Ahmed Al-Karim</div>
+            <div class="wms-testi-role">Operations Director, Pure Drop UAE</div>
+          </div>
+        </div>
+      </div>
+      <!-- 2 -->
+      <div class="wms-testi-card">
+        <div class="wms-quote-icon">
+          <svg width="36" height="25" viewBox="0 0 43 30" fill="none"><path d="M4.25 30L10 20C7.25 20 4.9 19.02 2.94 17.06 .98 15.1 0 12.75 0 10 0 7.25 .98 4.9 2.94 2.94 4.9 .98 7.25 0 10 0c2.75 0 5.1.98 7.06 2.94C19.02 4.9 20 7.25 20 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L10 30H4.25zm22.5 0L32.5 20c-2.75 0-5.1-.98-7.06-2.94C23.48 15.1 22.5 12.75 22.5 10c0-2.75.98-5.1 2.94-7.06C27.4.98 29.75 0 32.5 0c2.75 0 5.1.98 7.06 2.94C41.52 4.9 42.5 7.25 42.5 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L32.5 30H26.75z" fill="#0ea5e9" fill-opacity=".18"/></svg>
+        </div>
+        <blockquote>"The WhatsApp ordering flow was the game-changer. Customers love it and our call-centre volume dropped by 60%. The Growth Plan pays for itself from the efficiency alone."</blockquote>
+        <div class="wms-testi-user">
+          <div class="wms-avatar">SR</div>
+          <div>
+            <div class="wms-testi-name">Sara Rasheed</div>
+            <div class="wms-testi-role">CEO, AquaSwift Distribution</div>
+          </div>
+        </div>
+      </div>
+      <!-- 3 -->
+      <div class="wms-testi-card">
+        <div class="wms-quote-icon">
+          <svg width="36" height="25" viewBox="0 0 43 30" fill="none"><path d="M4.25 30L10 20C7.25 20 4.9 19.02 2.94 17.06 .98 15.1 0 12.75 0 10 0 7.25 .98 4.9 2.94 2.94 4.9 .98 7.25 0 10 0c2.75 0 5.1.98 7.06 2.94C19.02 4.9 20 7.25 20 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L10 30H4.25zm22.5 0L32.5 20c-2.75 0-5.1-.98-7.06-2.94C23.48 15.1 22.5 12.75 22.5 10c0-2.75.98-5.1 2.94-7.06C27.4.98 29.75 0 32.5 0c2.75 0 5.1.98 7.06 2.94C41.52 4.9 42.5 7.25 42.5 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L32.5 30H26.75z" fill="#0ea5e9" fill-opacity=".18"/></svg>
+        </div>
+        <blockquote>"We went with the lifetime licence. Best decision for a growing company — no monthly pressure. The bottle-return tracking alone solved a major reconciliation headache."</blockquote>
+        <div class="wms-testi-user">
+          <div class="wms-avatar">MJ</div>
+          <div>
+            <div class="wms-testi-name">Mohammed Jaber</div>
+            <div class="wms-testi-role">Founder, Oasis Water Delivery</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="wms-section" id="pricing">
+  <div class="wms-container">
+    <div class="wms-text-center">
+      <div class="wms-section-label">Pricing &amp; Plans</div>
+      <h2 class="wms-section-title">Choose the plan that matches your scale</h2>
+      <p class="wms-section-subtitle">Two straightforward plans that scale with your fleet — from a focused single-site operation to a multi-site distribution business. All white-labelled to your brand.</p>
+    </div>
+
+    <div class="wms-pricing-grid">
+
+      <!-- STARTER -->
+      <div class="wms-price-card">
+        <div class="wms-plan-label">Starter Plan</div>
+        <div class="wms-plan-name">For focused, single-site operations</div>
+        <div class="wms-plan-desc">Everything needed to digitise a water distribution operation — sized for a smaller fleet.</div>
+        <hr class="wms-price-divider">
+        <div class="wms-pay-row">
+          <div class="wms-pay-method">Monthly</div>
+          <div><span class="wms-price-amount">AED 4,000</span><span class="wms-price-period">/mo</span></div>
+        </div>
+        <div class="wms-pay-row">
+          <div class="wms-pay-method">One-Time Lifetime</div>
+          <div><span class="wms-price-amount">AED 50,000</span></div>
+          <div class="wms-price-note">Then AED 5,000/yr from year 2 · 1st year free</div>
+        </div>
+        <hr class="wms-price-divider">
+        <ul class="wms-price-features">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Admin Panel (Web)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Customer Panel (Web)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Driver Panel (App)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 10 driver users · 500 customers</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> All core Admin, Driver &amp; Customer features</li>
+        </ul>
+        <div class="wms-price-addon">
+          <strong>Add-on:</strong> Customer Mobile App — AED 15,000 one-time + AED 1,500/mo
+        </div>
+        <a href="#" class="wms-price-cta outline">Get Started</a>
+      </div>
+
+      <!-- GROWTH (featured) -->
+      <div class="wms-price-card featured">
+        <div class="wms-popular-badge">Most Popular</div>
+        <div class="wms-plan-label">Growth Plan</div>
+        <div class="wms-plan-name">For multi-site fleets ready to scale</div>
+        <div class="wms-plan-desc">The same complete platform, sized for a larger fleet — with a mobile customer app and WhatsApp ordering included.</div>
+        <hr class="wms-price-divider">
+        <div class="wms-pay-row">
+          <div class="wms-pay-method">Monthly</div>
+          <div><span class="wms-price-amount">AED 6,999</span><span class="wms-price-period">/mo</span></div>
+        </div>
+        <div class="wms-pay-row">
+          <div class="wms-pay-method">One-Time Lifetime</div>
+          <div><span class="wms-price-amount">AED 80,000</span></div>
+          <div class="wms-price-note">Then AED 6,000/yr from year 2 · 1st year free</div>
+        </div>
+        <hr class="wms-price-divider">
+        <ul class="wms-price-features">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Admin Panel (Web)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Customer Panel (Web &amp; App)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Driver Panel (App)</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> 25 driver users · 2,000 customers</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> All core Admin, Driver &amp; Customer features</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> WhatsApp Automation included</li>
+        </ul>
+        <div class="wms-price-addon">
+          <strong>WhatsApp usage:</strong> AED 2 per active customer/mo · pay-as-you-go
+        </div>
+        <a href="#" class="wms-price-cta filled">Get Started</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="wms-price-card">
+        <div class="wms-plan-label">Enterprise Plan</div>
+        <div class="wms-plan-name">For large &amp; multi-region operators</div>
+        <div class="wms-plan-desc">Custom pricing for operators with specific workflow, integration or compliance requirements.</div>
+        <hr class="wms-price-divider">
+        <div class="wms-pay-row">
+          <div class="wms-pay-method">Pricing</div>
+          <div><span class="wms-price-amount">Custom</span></div>
+          <div class="wms-price-note">Monthly or one-time lifetime · fully custom arrangement available</div>
+        </div>
+        <hr class="wms-price-divider">
+        <ul class="wms-price-features">
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Unlimited drivers &amp; customer accounts</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Custom feature development</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Dedicated onboarding, SLAs &amp; support</li>
+          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Custom integrations (ERP, payments, etc.)</li>
+        </ul>
+        <div style="margin-bottom:1.5rem;"></div>
+        <a href="#" class="wms-price-cta outline">Get In Touch</a>
+      </div>
+
+    </div>
+
+    <p class="wms-billing-note">All prices in AED, exclusive of VAT. Both plans available monthly or as a one-time lifetime licence.</p>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="wms-section" style="background: var(--wms-gray-50);" id="faq">
+  <div class="wms-container">
+    <div class="wms-text-center">
+      <div class="wms-section-label">FAQ</div>
+      <h2 class="wms-section-title">Frequently Asked Questions</h2>
+      <p class="wms-section-subtitle">Everything you need to know before you decide. Can't find your answer? Just reach out.</p>
+    </div>
+
+    <div class="wms-faq-wrap">
+
+      <div class="wms-faq-item open">
+        <button class="wms-faq-trigger" onclick="toggleFaq(this)">
+          What's the difference between the Starter and Growth plans?
+          <span class="wms-faq-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="wms-faq-body">
+          Both plans include the complete Admin, Customer and Driver feature set. The key differences are scale (10 drivers / 500 customers on Starter vs 25 drivers / 2,000 customers on Growth), and the Customer Mobile App and WhatsApp Automation — which are included in Growth but available as add-ons on Starter.
+        </div>
+      </div>
+
+      <div class="wms-faq-item">
+        <button class="wms-faq-trigger" onclick="toggleFaq(this)">
+          Can I switch from monthly to the lifetime licence later?
+          <span class="wms-faq-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="wms-faq-body">
+          Yes. You can upgrade from a monthly subscription to a lifetime licence at any time. Contact us and we'll provide a pro-rated or full-price quote for the switch.
+        </div>
+      </div>
+
+      <div class="wms-faq-item">
+        <button class="wms-faq-trigger" onclick="toggleFaq(this)">
+          What does "white-labelled" mean in practice?
+          <span class="wms-faq-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="wms-faq-body">
+          Your customers and drivers will see your brand — your logo, your colours, your domain. The Admin, Customer and Driver panels are all deployed under your company name. There's no "Vertical WMS" branding visible to your end users.
+        </div>
+      </div>
+
+      <div class="wms-faq-item">
+        <button class="wms-faq-trigger" onclick="toggleFaq(this)">
+          How does WhatsApp ordering work for my customers?
+          <span class="wms-faq-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="wms-faq-body">
+          On the Growth plan, WhatsApp ordering is fully automated end to end. Customers can place new orders, manage subscriptions and track deliveries directly through WhatsApp — without any manual intervention from your team. Usage is billed pay-as-you-go at AED 2 per active customer per month.
+        </div>
+      </div>
+
+      <div class="wms-faq-item">
+        <button class="wms-faq-trigger" onclick="toggleFaq(this)">
+          Is there a setup fee or onboarding cost?
+          <span class="wms-faq-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="wms-faq-body">
+          The core platform plans (Starter and Growth) include onboarding. The Customer Mobile App add-on has a one-time setup fee of AED 15,000, which covers building and publishing the branded app. Enterprise plans include dedicated onboarding — contact us for details.
+        </div>
+      </div>
+
+      <div class="wms-faq-item">
+        <button class="wms-faq-trigger" onclick="toggleFaq(this)">
+          What integrations does the Enterprise plan support?
+          <span class="wms-faq-icon">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </span>
+        </button>
+        <div class="wms-faq-body">
+          Enterprise plans support custom integrations including ERP systems, payment gateways, accounting platforms, and other third-party tools. We work with you to scope and build the exact integrations your operation requires, covered under a dedicated SLA.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="wms-footer">
+  <div class="wms-footer-grid">
+    <div class="wms-footer-brand">
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:0.5rem;">
+        <span style="font-size:1.2rem; font-weight:800; color:white; letter-spacing:-0.04em;">VERTICAL<span style="width:7px;height:7px;background:#a3e635;border-radius:50%;display:inline-block;margin-left:2px;margin-bottom:2px;"></span></span>
+      </div>
+      <div style="font-size:0.8rem; color:rgba(255,255,255,0.35); letter-spacing:0.06em; margin-bottom:1rem;">WATER MANAGEMENT SYSTEM</div>
+      <p>Powering UAE water distribution businesses with an end-to-end platform — from order intake and route optimisation to customer self-service and fleet reporting.</p>
+    </div>
+    <div class="wms-footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#panels">Admin Panel</a></li>
+        <li><a href="#panels">Customer Panel</a></li>
+        <li><a href="#panels">Driver App</a></li>
+        <li><a href="#">WhatsApp Ordering</a></li>
+      </ul>
+    </div>
+    <div class="wms-footer-col">
+      <h4>Plans</h4>
+      <ul>
+        <li><a href="#pricing">Starter Plan</a></li>
+        <li><a href="#pricing">Growth Plan</a></li>
+        <li><a href="#pricing">Enterprise</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="wms-footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Vertical</a></li>
+        <li><a href="#">Contact Sales</a></li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wms-footer-bottom">
+    <div>
+      <p style="margin:0;">© 2026 Vertical WMS. Water Management System for the UAE.</p>
+      <p style="margin:0.25rem 0 0;">All prices in AED, exclusive of VAT.</p>
+    </div>
+    <div class="wms-status-pill">
+      <span class="wms-status-dot"></span>
+      <span>System Operational</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const item = btn.closest('.wms-faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.wms-faq-item').forEach(el => el.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
