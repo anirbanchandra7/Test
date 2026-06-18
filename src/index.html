@@ -7,338 +7,328 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* ============================================================
-       VERTICAL WMS — Dark / Lime design system
-       Refs: dark device-led layout, lime accent, ambient glows
-    ============================================================ */
+    /* ==========================================================
+       VERTICAL WMS — Light / Apple-iOS design system
+       Mirrors the real product UI: soft gradients, frosted
+       cards, gradient icon tiles, blue accent, smooth scroll
+    ========================================================== */
     :root {
-      --black:      #070807;
-      --bg:         #0a0c0a;
-      --bg-soft:    #0f120f;
-      --card:       #101310;
-      --card-2:     #14181400;
-      --border:     rgba(255,255,255,0.08);
-      --border-2:   rgba(255,255,255,0.12);
-      --lime:       #b4f135;
-      --lime-bright:#c6ff3d;
-      --lime-dim:   rgba(180,241,53,0.12);
-      --white:      #ffffff;
-      --gray-300:   #cbd2cb;
-      --gray-400:   #9aa39a;
-      --gray-500:   #6b756b;
-      --gray-600:   #4a514a;
+      --bg:        #f4f7fb;
+      --bg-tint:   #eef3fa;
+      --white:     #ffffff;
+      --card:      #ffffff;
+      --ink:       #0f172a;
+      --ink-2:     #1e293b;
+      --gray:      #64748b;
+      --gray-2:    #94a3b8;
+      --gray-3:    #cbd5e1;
+      --border:    #e7edf4;
+      --border-2:  #eef2f7;
+      --blue:      #2f8ff7;
+      --blue-2:    #3b9eff;
+      --blue-dk:   #1b7ae6;
+      --indigo:    #6366f1;
+      --purple:    #8b5cf6;
+      --orange:    #fb923c;
+      --green:     #22c55e;
+      --green-dk:  #16a34a;
+      --red:       #ef4444;
+      --pink:      #ec4899;
+      --amber:     #f59e0b;
+      --shadow-sm: 0 2px 8px rgba(15,23,42,0.04);
+      --shadow:    0 8px 30px rgba(15,23,42,0.06);
+      --shadow-lg: 0 30px 70px rgba(15,23,42,0.10);
+      --shadow-blue: 0 20px 50px rgba(47,143,247,0.18);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
       background: var(--bg);
-      color: var(--gray-400);
+      color: var(--gray);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+      line-height: 1.5;
     }
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
     .wrap { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
+    /* reveal-on-scroll */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s cubic-bezier(.16,.84,.44,1), transform 0.7s cubic-bezier(.16,.84,.44,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: 0.08s; } .reveal.d2 { transition-delay: 0.16s; } .reveal.d3 { transition-delay: 0.24s; }
+
     /* ---- Buttons ---- */
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.9rem; font-weight: 600; border-radius: 50px;
-      padding: 0.75rem 1.5rem; cursor: pointer; transition: all 0.2s;
-      border: 1.5px solid transparent; white-space: nowrap;
-    }
-    .btn-lime { background: var(--lime); color: #0a0c0a; }
-    .btn-lime:hover { background: var(--lime-bright); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(180,241,53,0.35); }
-    .btn-ghost { background: transparent; color: var(--white); border-color: var(--border-2); }
-    .btn-ghost:hover { border-color: var(--lime); color: var(--lime); }
-    .btn-arrow { width: 22px; height: 22px; border-radius: 50%; background: rgba(0,0,0,0.15); display: inline-flex; align-items: center; justify-content: center; }
-    .btn-ghost .btn-arrow { background: rgba(255,255,255,0.1); }
+    .btn { display: inline-flex; align-items: center; gap: 8px; font-size: 0.92rem; font-weight: 600; border-radius: 14px; padding: 0.8rem 1.5rem; cursor: pointer; transition: all 0.25s cubic-bezier(.16,.84,.44,1); border: 1px solid transparent; white-space: nowrap; }
+    .btn-blue { background: linear-gradient(180deg, var(--blue-2), var(--blue)); color: #fff; box-shadow: var(--shadow-blue); }
+    .btn-blue:hover { transform: translateY(-2px); box-shadow: 0 24px 56px rgba(47,143,247,0.28); }
+    .btn-light { background: var(--white); color: var(--ink); border-color: var(--border); box-shadow: var(--shadow-sm); }
+    .btn-light:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--gray-3); }
 
     /* ---- Navbar ---- */
-    .nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(10,12,10,0.7);
-      backdrop-filter: blur(20px) saturate(160%);
-      -webkit-backdrop-filter: blur(20px) saturate(160%);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; }
-    .logo { display: flex; align-items: center; font-size: 1.35rem; font-weight: 800; color: #fff; letter-spacing: -0.03em; }
-    .logo .dot { width: 8px; height: 8px; background: var(--lime); border-radius: 50%; margin-left: 2px; margin-bottom: -2px; }
-    .nav-links { display: flex; gap: 2rem; }
-    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--gray-300); display: flex; align-items: center; gap: 4px; transition: color 0.2s; }
-    .nav-links a:hover { color: #fff; }
-    .nav-links svg { opacity: 0.6; }
+    .nav { position: sticky; top: 0; z-index: 100; background: rgba(244,247,251,0.72); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border-bottom: 1px solid rgba(231,237,244,0.7); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+    .logo { display: flex; align-items: center; font-size: 1.3rem; font-weight: 800; color: var(--ink); letter-spacing: -0.03em; }
+    .logo .dot { width: 7px; height: 7px; background: var(--blue); border-radius: 50%; margin-left: 2px; margin-bottom: -2px; }
+    .nav-links { display: flex; gap: 2.2rem; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--gray); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-ghost { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
 
     /* ---- Hero ---- */
-    .hero { position: relative; padding: 5rem 0 4rem; overflow: hidden; }
-    .hero-glow {
-      position: absolute; top: -10%; right: -5%; width: 70%; height: 120%;
-      background: radial-gradient(ellipse at 60% 40%, rgba(180,241,53,0.16) 0%, rgba(180,241,53,0.04) 35%, transparent 65%);
-      pointer-events: none; z-index: 0;
-    }
-    .hero-arc {
-      position: absolute; top: 0; right: 0; width: 900px; height: 900px;
-      pointer-events: none; z-index: 0; opacity: 0.8;
-    }
-    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 1fr; gap: 2rem; align-items: center; }
-    .hero h1 {
-      font-size: clamp(2.6rem, 5.5vw, 4rem); font-weight: 800; line-height: 1.05;
-      letter-spacing: -0.035em; color: #fff; margin-bottom: 1.5rem;
-    }
-    .hero h1 .accent { color: var(--lime); }
-    .hero-sub { font-size: 1.1rem; line-height: 1.6; color: var(--gray-400); max-width: 420px; margin-bottom: 2rem; }
-    .hero-cta { display: flex; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
-    .hero-chips { display: flex; gap: 2rem; flex-wrap: wrap; padding-top: 2rem; border-top: 1px solid var(--border); max-width: 480px; }
-    .chip { display: flex; align-items: center; gap: 10px; }
-    .chip-ic { width: 34px; height: 34px; border-radius: 9px; background: var(--lime-dim); border: 1px solid rgba(180,241,53,0.2); display: flex; align-items: center; justify-content: center; color: var(--lime); flex-shrink: 0; }
-    .chip-tx { font-size: 0.82rem; font-weight: 600; color: var(--gray-300); line-height: 1.25; }
+    .hero { position: relative; padding: 5rem 0 6rem; overflow: hidden; }
+    .hero::before { content:''; position: absolute; inset: 0; background:
+      radial-gradient(60% 50% at 75% 15%, rgba(47,143,247,0.12), transparent 70%),
+      radial-gradient(50% 45% at 15% 25%, rgba(139,92,246,0.08), transparent 70%),
+      linear-gradient(180deg, #eef4fc 0%, var(--bg) 60%);
+      pointer-events: none; }
+    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.08fr; gap: 3rem; align-items: center; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.8); border: 1px solid var(--border); border-radius: 50px; padding: 6px 14px 6px 8px; font-size: 0.78rem; font-weight: 600; color: var(--ink-2); box-shadow: var(--shadow-sm); margin-bottom: 1.75rem; }
+    .hero-badge .pin { display:inline-flex; align-items:center; gap:5px; background: var(--blue); color:#fff; border-radius: 50px; padding: 3px 9px; font-size: 0.68rem; }
+    .hero h1 { font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.04em; color: var(--ink); margin-bottom: 1.4rem; }
+    .hero h1 .grad { background: linear-gradient(120deg, var(--blue), var(--indigo)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: 1.12rem; line-height: 1.6; color: var(--gray); max-width: 460px; margin-bottom: 2.25rem; }
+    .hero-cta { display: flex; gap: 1rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .hero-trust { display: flex; align-items: center; gap: 1rem; font-size: 0.84rem; color: var(--gray-2); }
+    .hero-avatars { display: flex; }
+    .hero-avatars span { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--bg); margin-left: -10px; background: linear-gradient(135deg, var(--blue-2), var(--indigo)); display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.7rem; font-weight:700; }
+    .hero-avatars span:first-child { margin-left: 0; }
 
-    /* cascading phone frames */
-    .hero-visual { position: relative; height: 480px; }
-    .phone-stack { position: absolute; right: 0; top: 0; }
-    .phone-frame {
-      position: absolute; width: 230px; height: 470px; border-radius: 38px;
-      border: 1.5px solid rgba(255,255,255,0.14);
-      background: linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.005));
-      box-shadow: 0 0 60px rgba(180,241,53,0.06);
-    }
-    .phone-frame::after {
-      content:''; position:absolute; top:18px; left:50%; transform:translateX(-50%);
-      width: 70px; height: 6px; border-radius: 10px; background: rgba(255,255,255,0.12);
-    }
-    .pf1 { right: 0; top: 8px; opacity: 1; box-shadow: 0 30px 80px rgba(180,241,53,0.12), 0 0 60px rgba(180,241,53,0.1); background: linear-gradient(160deg, rgba(180,241,53,0.06), rgba(255,255,255,0.01)); }
-    .pf2 { right: 64px; top: 4px; opacity: 0.55; }
-    .pf3 { right: 128px; top: 0; opacity: 0.32; }
-    .pf4 { right: 188px; top: -4px; opacity: 0.16; }
+    /* hero device */
+    .hero-visual { position: relative; }
+    .hero-float { position: absolute; z-index: 3; background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.9); border-radius: 16px; padding: 0.85rem 1rem; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 10px; animation: floaty 5s ease-in-out infinite; }
+    .hero-float .fic { width: 34px; height: 34px; border-radius: 10px; display:flex; align-items:center; justify-content:center; color:#fff; flex-shrink:0; }
+    .hero-float .fv { font-size: 0.95rem; font-weight: 800; color: var(--ink); line-height: 1; }
+    .hero-float .fl { font-size: 0.66rem; color: var(--gray-2); margin-top: 2px; }
+    .hf-1 { top: 8%; left: -28px; animation-delay: 0s; }
+    .hf-2 { bottom: 12%; right: -22px; animation-delay: 1.4s; }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-    /* ---- Trusted strip ---- */
-    .trusted { position: relative; z-index: 2; margin-top: 1rem; }
-    .trusted-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
-      border: 1px solid var(--border); border-radius: 18px;
-      padding: 1.5rem 2.5rem; display: flex; align-items: center; gap: 2rem;
-    }
-    .trusted-label { font-size: 0.8rem; color: var(--gray-500); line-height: 1.4; max-width: 150px; flex-shrink: 0; border-right: 1px solid var(--border); padding-right: 2rem; }
-    .trusted-logos { display: flex; align-items: center; justify-content: space-around; flex: 1; gap: 2rem; flex-wrap: wrap; }
-    .tlogo { font-weight: 800; font-size: 1.15rem; color: rgba(255,255,255,0.55); letter-spacing: 0.02em; transition: color 0.2s; white-space: nowrap; }
-    .tlogo.serif { font-family: Georgia, 'Times New Roman', serif; font-style: italic; }
-    .trusted-card:hover .tlogo { color: rgba(255,255,255,0.7); }
+    /* ---- Browser frame (admin dashboard) ---- */
+    .browser { background: var(--white); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow-lg); overflow: hidden; }
+    .browser-bar { display: flex; align-items: center; gap: 6px; padding: 11px 14px; border-bottom: 1px solid var(--border-2); background: #fbfcfe; }
+    .browser-bar i { width: 10px; height: 10px; border-radius: 50%; display:block; }
+    .browser-bar i:nth-child(1){ background:#ff5f57; } .browser-bar i:nth-child(2){ background:#febc2e; } .browser-bar i:nth-child(3){ background:#28c840; }
+    .browser-url { margin-left: 10px; flex: 1; height: 22px; background: #eef2f7; border-radius: 7px; display:flex; align-items:center; padding: 0 10px; font-size: 0.62rem; color: var(--gray-2); }
 
-    /* ---- Section scaffolding ---- */
+    /* admin dash content */
+    .dash { padding: 16px; background: linear-gradient(180deg,#fafbfd,#f4f7fb); }
+    .dash-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 14px; }
+    .dash-head h4 { font-size: 0.95rem; color: var(--ink); font-weight: 800; }
+    .dash-head .sub { font-size: 0.6rem; color: var(--gray-2); margin-top: 2px; }
+    .dash-head .csv { font-size: 0.58rem; color: var(--gray); background: var(--white); border:1px solid var(--border); border-radius: 8px; padding: 5px 9px; display:flex; align-items:center; gap:5px; }
+    .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 12px; }
+    .kpi { position: relative; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 10px; overflow: hidden; }
+    .kpi::before { content:''; position:absolute; top:-30%; right:-20%; width: 70%; height: 90%; border-radius: 50%; filter: blur(18px); opacity: 0.5; }
+    .kpi.b::before { background: var(--blue); } .kpi.p::before { background: var(--purple); } .kpi.a::before { background: var(--amber); } .kpi.g::before { background: var(--green); }
+    .kpi .kt { font-size: 0.5rem; letter-spacing: 0.04em; color: var(--gray-2); text-transform: uppercase; font-weight: 600; margin-bottom: 5px; position:relative; }
+    .kpi .kv { font-size: 0.92rem; font-weight: 800; color: var(--ink); line-height: 1; position:relative; }
+    .kpi .ks { font-size: 0.46rem; color: var(--gray-2); margin-top: 4px; position:relative; }
+    .kpi .kic { position:absolute; top:9px; right:9px; width: 22px; height: 22px; border-radius: 7px; display:flex; align-items:center; justify-content:center; color:#fff; }
+    .chartbox { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+    .chartbox .ch-top { display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px; }
+    .chartbox .ch-t { font-size: 0.62rem; font-weight: 700; color: var(--ink); }
+    .chartbox .ch-leg { display:flex; gap:8px; font-size: 0.46rem; color: var(--gray); }
+    .chartbox .ch-leg span { display:flex; align-items:center; gap:3px; }
+    .ch-dot { width:6px; height:6px; border-radius:50%; }
+    .chart-area { height: 80px; }
+
+    /* ---- Section scaffold ---- */
     section { position: relative; }
     .sec { padding: 6.5rem 0; }
-    .eyebrow { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--lime); text-align: center; margin-bottom: 1.25rem; }
+    .sec.tint { background: linear-gradient(180deg, var(--bg-tint), var(--bg)); }
+    .sec.white { background: var(--white); }
+    .eyebrow { display:inline-flex; align-items:center; gap:7px; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); background: rgba(47,143,247,0.1); border-radius: 50px; padding: 5px 12px; margin-bottom: 1.25rem; }
     .sec-head { text-align: center; max-width: 640px; margin: 0 auto 4rem; }
-    .sec-head h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; color: #fff; line-height: 1.1; margin-bottom: 1rem; }
-    .sec-head p { font-size: 1.02rem; line-height: 1.6; color: var(--gray-400); }
+    .sec-head .eyebrow { margin-left: auto; margin-right: auto; }
+    .sec-head h2 { font-size: clamp(1.9rem, 3.8vw, 2.7rem); font-weight: 800; letter-spacing: -0.035em; color: var(--ink); line-height: 1.1; margin-bottom: 1rem; }
+    .sec-head p { font-size: 1.04rem; line-height: 1.6; color: var(--gray); }
 
     /* ---- Three experiences ---- */
     .exp-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
-    .exp-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
-      border: 1px solid var(--border); border-radius: 22px; padding: 2rem 2rem 0;
-      overflow: hidden; transition: border-color 0.3s, transform 0.3s;
-      position: relative;
-    }
-    .exp-card:hover { border-color: rgba(180,241,53,0.35); transform: translateY(-4px); }
-    .exp-ic { width: 48px; height: 48px; border-radius: 12px; background: var(--lime-dim); border: 1px solid rgba(180,241,53,0.2); display: flex; align-items: center; justify-content: center; color: var(--lime); margin-bottom: 1.5rem; }
-    .exp-card h3 { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem; }
-    .exp-card p { font-size: 0.88rem; line-height: 1.55; color: var(--gray-400); margin-bottom: 1.75rem; }
-    .exp-device { position: relative; margin: 0 -0.5rem; }
+    .exp-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; padding: 2rem 2rem 0; overflow: hidden; box-shadow: var(--shadow-sm); transition: transform 0.35s cubic-bezier(.16,.84,.44,1), box-shadow 0.35s; }
+    .exp-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+    .exp-ic { width: 50px; height: 50px; border-radius: 14px; display:flex; align-items:center; justify-content:center; color:#fff; margin-bottom: 1.4rem; box-shadow: 0 8px 20px rgba(47,143,247,0.25); }
+    .ic-blue { background: linear-gradient(135deg, var(--blue-2), var(--blue-dk)); }
+    .ic-purple { background: linear-gradient(135deg, #a78bfa, var(--purple)); box-shadow: 0 8px 20px rgba(139,92,246,0.25); }
+    .ic-green { background: linear-gradient(135deg, #4ade80, var(--green-dk)); box-shadow: 0 8px 20px rgba(34,197,94,0.25); }
+    .exp-card h3 { font-size: 1.25rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 0.6rem; }
+    .exp-card p { font-size: 0.88rem; line-height: 1.55; color: var(--gray); margin-bottom: 1.75rem; }
+    .exp-device { margin: 0 -1rem; }
 
-    /* laptop mock */
-    .laptop { background: #0d0f0d; border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px 12px 0 0; padding: 8px 8px 0; box-shadow: 0 -10px 40px rgba(180,241,53,0.06); }
-    .laptop-bar { display: flex; gap: 4px; margin-bottom: 6px; }
-    .laptop-bar span { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.15); }
-    .laptop-screen { background: linear-gradient(180deg,#0c0e0c,#0a0c0a); border-radius: 6px 6px 0 0; padding: 10px; min-height: 175px; }
-    .mini-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .mini-h { font-size: 0.6rem; color: var(--gray-500); font-weight: 600; }
-    .mini-pill { font-size: 0.5rem; background: var(--lime-dim); color: var(--lime); padding: 2px 6px; border-radius: 20px; }
-    .mini-kpis { display: flex; gap: 6px; margin-bottom: 10px; }
-    .mini-kpi { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 6px; padding: 6px; }
-    .mini-kpi b { display: block; font-size: 0.7rem; color: #fff; }
-    .mini-kpi span { font-size: 0.45rem; color: var(--gray-500); }
-    .mini-chart { height: 56px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 6px; padding: 6px; display: flex; align-items: flex-end; gap: 3px; }
-    .mini-chart i { flex: 1; background: linear-gradient(180deg, var(--lime), rgba(180,241,53,0.25)); border-radius: 2px 2px 0 0; opacity: 0.85; }
+    /* phone mock (light) */
+    .phone { width: 215px; margin: 0 auto; background: #0f172a; border-radius: 30px 30px 0 0; padding: 8px 8px 0; box-shadow: 0 -16px 50px rgba(15,23,42,0.14); }
+    .phone-scr { background: linear-gradient(180deg,#f6f8fb,#eef3fa); border-radius: 24px 24px 0 0; padding: 14px 12px 0; min-height: 270px; }
+    .phone-notch { width: 70px; height: 16px; background: #0f172a; border-radius: 0 0 12px 12px; margin: 0 auto 10px; }
+    .ph-status { display:flex; justify-content:space-between; align-items:center; font-size: 0.55rem; color: var(--ink); font-weight: 600; margin-bottom: 14px; }
+    .ph-greet-s { font-size: 0.55rem; color: var(--gray-2); }
+    .ph-greet { font-size: 1.05rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 14px; }
+    .ph-sheet { background: var(--white); border-radius: 18px 18px 0 0; margin: 0 -12px; padding: 14px 12px 16px; box-shadow: 0 -6px 20px rgba(15,23,42,0.05); }
+    .ph-ov { display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px; }
+    .ph-ov b { font-size: 0.8rem; color: var(--ink); font-weight: 800; }
+    .ph-ov .date { font-size: 0.5rem; color: var(--gray); background: #f1f5f9; border-radius: 50px; padding: 4px 8px; }
+    .ph-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .ph-c { background: var(--white); border: 1px solid var(--border); border-radius: 13px; padding: 9px; }
+    .ph-c .top { display:flex; align-items:center; gap: 5px; margin-bottom: 8px; }
+    .ph-c .top .ci { width: 20px; height: 20px; border-radius: 7px; display:flex; align-items:center; justify-content:center; }
+    .ph-c .top .cn { font-size: 0.55rem; color: var(--ink); font-weight: 600; }
+    .ph-c .cv { font-size: 0.78rem; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
+    .ph-c .cv.green { color: var(--green-dk); }
+    .ph-c .cv span { font-size: 0.5rem; color: var(--gray-2); font-weight: 600; }
+    .ph-pill { font-size: 0.42rem; font-weight: 700; padding: 2px 6px; border-radius: 50px; }
+    .pill-green { background: rgba(34,197,94,0.12); color: var(--green-dk); }
+    .pill-blue { background: rgba(47,143,247,0.12); color: var(--blue-dk); }
+    .pill-pink { background: rgba(236,72,153,0.12); color: var(--pink); }
+    .ph-tabs { display:flex; justify-content:space-around; padding: 10px 0 8px; border-top: 1px solid var(--border-2); margin: 12px -12px 0; }
+    .ph-tab { display:flex; flex-direction:column; align-items:center; gap:3px; font-size: 0.45rem; color: var(--gray-2); }
+    .ph-tab.on { color: var(--blue); }
 
-    /* phone mock */
-    .pmock { width: 178px; margin: 0 auto; background: #0d0f0d; border: 1.5px solid rgba(255,255,255,0.12); border-radius: 26px 26px 0 0; padding: 10px 10px 0; box-shadow: 0 -10px 40px rgba(180,241,53,0.06); }
-    .pmock-notch { width: 50px; height: 5px; border-radius: 10px; background: rgba(255,255,255,0.15); margin: 2px auto 8px; }
-    .pmock-screen { background: linear-gradient(180deg,#0c0e0c,#0a0c0a); border-radius: 16px 16px 0 0; padding: 10px; min-height: 200px; }
-    .pm-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .pm-top b { font-size: 0.6rem; color:#fff; }
-    .pm-card { background: linear-gradient(135deg, rgba(180,241,53,0.12), rgba(255,255,255,0.02)); border: 1px solid rgba(180,241,53,0.2); border-radius: 10px; padding: 9px; margin-bottom: 9px; }
-    .pm-card .lbl { font-size: 0.45rem; color: var(--lime); letter-spacing: 0.05em; margin-bottom: 3px; }
-    .pm-card .val { font-size: 0.62rem; color:#fff; font-weight: 600; }
-    .pm-card .sub { font-size: 0.45rem; color: var(--gray-400); margin-top: 2px; }
-    .pm-actions { display: grid; grid-template-columns: repeat(4,1fr); gap: 5px; margin-bottom: 9px; }
-    .pm-act { aspect-ratio: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gray-400); }
-    .pm-refer { background: linear-gradient(135deg, var(--lime), #8fce1f); border-radius: 10px; padding: 8px; display: flex; align-items: center; justify-content: space-between; }
-    .pm-refer b { font-size: 0.52rem; color: #0a0c0a; }
-    .pm-refer .mini-btn { font-size: 0.42rem; background: rgba(0,0,0,0.2); color:#0a0c0a; padding: 3px 7px; border-radius: 20px; font-weight: 700; }
-    /* map mock */
-    .pm-map { height: 110px; border-radius: 10px; background: #0c0e0c; border: 1px solid var(--border); position: relative; overflow: hidden; margin-bottom: 9px; }
-    .pm-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .pm-pin { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: var(--lime); border: 2px solid #0a0c0a; box-shadow: 0 0 8px rgba(180,241,53,0.6); }
-    .pm-next { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 9px; padding: 8px; display:flex; align-items:center; justify-content: space-between; }
-    .pm-next .nm { font-size: 0.55rem; color:#fff; font-weight: 600; }
-    .pm-next .ds { font-size: 0.42rem; color: var(--gray-500); }
-    .pm-nav { font-size: 0.42rem; background: var(--lime); color:#0a0c0a; padding: 4px 8px; border-radius: 20px; font-weight: 700; }
-    .pm-foot { display:flex; gap:6px; margin-top:9px; }
-    .pm-foot div { flex:1; background: rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:7px; padding:6px; text-align:center; }
-    .pm-foot b { font-size:0.6rem; color:#fff; display:block; }
-    .pm-foot span { font-size:0.42rem; color: var(--gray-500); }
+    /* customer web mock */
+    .cwm { background: linear-gradient(180deg,#fafbfd,#f4f7fb); padding: 12px; }
+    .cwm-top { display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px; }
+    .cwm-top b { font-size: 0.7rem; color: var(--ink); font-weight: 800; }
+    .cwm-hero { background: linear-gradient(120deg, #dbeafe, #eff6ff); border: 1px solid #d3e6fd; border-radius: 14px; padding: 12px; margin-bottom: 9px; }
+    .cwm-hero .l { font-size: 0.5rem; color: var(--gray); }
+    .cwm-hero .big { font-size: 1.2rem; font-weight: 800; color: var(--ink); letter-spacing: -0.03em; margin: 3px 0 10px; }
+    .cwm-hero .row { display:flex; justify-content:space-between; align-items:center; }
+    .cwm-hero .day { font-size: 0.62rem; font-weight: 800; color: var(--ink); }
+    .cwm-hero .pay { font-size: 0.5rem; font-weight: 700; color:#fff; background: linear-gradient(180deg,var(--blue-2),var(--blue)); border-radius: 8px; padding: 5px 10px; }
+    .cwm-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .cwm-box { background: var(--white); border:1px solid var(--border); border-radius: 12px; padding: 10px; }
+    .cwm-box .bl { font-size: 0.5rem; color: var(--gray); margin-bottom: 6px; }
+    .cwm-box .pts { display:flex; align-items:center; gap:5px; }
+    .cwm-box .star { width:16px;height:16px;border-radius:5px;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.5rem; }
+    .cwm-box .ptv { font-size: 0.85rem; font-weight: 800; color: var(--ink); }
+    .cwm-streak { display:flex; justify-content:space-between; align-items:center; margin-top:4px; }
+    .cwm-streak i { width:14px;height:14px;border-radius:50%;border:2px solid var(--blue);display:block; }
+    .cwm-streak i.fill { background: var(--blue); }
+    .cwm-streak i.off { border-color: var(--gray-3); }
 
     /* ---- Stats card ---- */
-    .stats-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
-      border: 1px solid var(--border); border-radius: 24px; padding: 3rem 2rem;
-      display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem;
-    }
+    .stats-card { background: var(--white); border: 1px solid var(--border); border-radius: 24px; padding: 3rem 2rem; box-shadow: var(--shadow); display: grid; grid-template-columns: repeat(4,1fr); gap: 2rem; }
     .stat { text-align: center; position: relative; }
-    .stat:not(:last-child)::after { content:''; position:absolute; right: -1rem; top: 50%; transform: translateY(-50%); width:1px; height: 60px; background: var(--border); }
-    .stat-ic { width: 44px; height: 44px; border-radius: 50%; background: var(--lime-dim); border:1px solid rgba(180,241,53,0.2); display:flex; align-items:center; justify-content:center; color: var(--lime); margin: 0 auto 1rem; }
-    .stat-num { font-size: 2rem; font-weight: 800; color: var(--lime); letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.3rem; }
-    .stat-num.white { color: #fff; }
-    .stat-label { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
-    .stat-desc { font-size: 0.76rem; color: var(--gray-500); line-height: 1.4; }
+    .stat:not(:last-child)::after { content:''; position:absolute; right:-1rem; top:50%; transform:translateY(-50%); width:1px; height:56px; background: var(--border); }
+    .stat-ic { width: 46px; height: 46px; border-radius: 13px; display:flex; align-items:center; justify-content:center; color:#fff; margin: 0 auto 1rem; }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--ink); letter-spacing: -0.04em; line-height: 1; margin-bottom: 0.35rem; }
+    .stat-num .g { background: linear-gradient(120deg,var(--blue),var(--indigo)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+    .stat-label { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem; }
+    .stat-desc { font-size: 0.76rem; color: var(--gray-2); line-height: 1.4; }
 
-    /* ---- Feature grid ---- */
+    /* ---- Features ---- */
     .feat-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
-    .feat {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-      border: 1px solid var(--border); border-radius: 18px; padding: 1.75rem;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .feat:hover { border-color: rgba(180,241,53,0.3); transform: translateY(-3px); }
-    .feat-ic { width: 44px; height: 44px; border-radius: 11px; background: var(--lime-dim); border:1px solid rgba(180,241,53,0.2); display:flex; align-items:center; justify-content:center; color: var(--lime); margin-bottom: 1.1rem; }
-    .feat h3 { font-size: 1.05rem; font-weight: 700; color:#fff; margin-bottom: 0.5rem; }
-    .feat p { font-size: 0.85rem; line-height: 1.55; color: var(--gray-400); }
+    .feat { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 1.85rem; box-shadow: var(--shadow-sm); transition: transform 0.3s cubic-bezier(.16,.84,.44,1), box-shadow 0.3s; }
+    .feat:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .feat-ic { width: 46px; height: 46px; border-radius: 13px; display:flex; align-items:center; justify-content:center; color:#fff; margin-bottom: 1.1rem; }
+    .feat h3 { font-size: 1.05rem; font-weight: 800; color: var(--ink); letter-spacing:-0.01em; margin-bottom: 0.5rem; }
+    .feat p { font-size: 0.86rem; line-height: 1.55; color: var(--gray); }
 
-    /* ---- Panels (checklists) ---- */
+    /* ---- Panels ---- */
     .panel-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
-    .panel {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-      border: 1px solid var(--border); border-radius: 20px; padding: 2rem;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .panel:hover { border-color: rgba(180,241,53,0.3); transform: translateY(-3px); }
-    .panel-ic { width: 50px; height: 50px; border-radius: 14px; background: var(--lime); display:flex; align-items:center; justify-content:center; color:#0a0c0a; margin-bottom: 1.25rem; }
-    .panel h3 { font-size: 1.15rem; font-weight: 700; color:#fff; margin-bottom: 1.25rem; }
-    .check li { display:flex; gap: 10px; align-items: flex-start; font-size: 0.84rem; color: var(--gray-300); margin-bottom: 0.7rem; line-height: 1.4; }
-    .check li svg { flex-shrink: 0; margin-top: 2px; color: var(--lime); }
+    .panel { background: var(--white); border: 1px solid var(--border); border-radius: 22px; padding: 2rem; box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s; }
+    .panel:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .panel-ic { width: 52px; height: 52px; border-radius: 15px; display:flex; align-items:center; justify-content:center; color:#fff; margin-bottom: 1.25rem; }
+    .panel h3 { font-size: 1.15rem; font-weight: 800; color: var(--ink); letter-spacing:-0.01em; margin-bottom: 1.25rem; }
+    .check li { display:flex; gap: 10px; align-items: flex-start; font-size: 0.85rem; color: var(--gray); margin-bottom: 0.75rem; line-height: 1.4; }
+    .check li .ck { flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; background: rgba(34,197,94,0.12); display:flex; align-items:center; justify-content:center; color: var(--green-dk); margin-top: 1px; }
 
     /* ---- How it works ---- */
     .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 2.5rem; position: relative; }
-    .steps::before { content:''; position:absolute; top: 27px; left: 16.6%; right: 16.6%; border-top: 1.5px dashed var(--border-2); }
+    .steps::before { content:''; position:absolute; top: 28px; left: 16.6%; right: 16.6%; border-top: 2px dashed var(--gray-3); }
     .step { text-align: center; position: relative; z-index: 1; }
-    .step-n { width: 54px; height: 54px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--border-2); display:flex; align-items:center; justify-content:center; font-size: 1.1rem; font-weight: 800; color:#fff; margin: 0 auto 1.5rem; }
-    .step-n.on { background: var(--lime); color:#0a0c0a; border-color: var(--lime); box-shadow: 0 0 30px rgba(180,241,53,0.4); }
-    .step h3 { font-size: 1.1rem; font-weight: 700; color:#fff; margin-bottom: 0.6rem; }
-    .step p { font-size: 0.86rem; line-height: 1.55; color: var(--gray-400); }
+    .step-n { width: 56px; height: 56px; border-radius: 50%; background: var(--white); border: 1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size: 1.15rem; font-weight: 800; color: var(--ink); margin: 0 auto 1.5rem; box-shadow: var(--shadow-sm); }
+    .step-n.on { background: linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; border-color: transparent; box-shadow: var(--shadow-blue); }
+    .step h3 { font-size: 1.1rem; font-weight: 800; color: var(--ink); margin-bottom: 0.6rem; }
+    .step p { font-size: 0.87rem; line-height: 1.55; color: var(--gray); }
 
     /* ---- Testimonials ---- */
     .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
-    .testi {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-      border: 1px solid var(--border); border-radius: 20px; padding: 2rem;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .testi:hover { border-color: rgba(180,241,53,0.3); transform: translateY(-3px); }
-    .testi blockquote { font-size: 0.92rem; font-style: italic; color: var(--gray-300); line-height: 1.6; margin: 1rem 0 1.5rem; }
+    .testi { background: var(--white); border: 1px solid var(--border); border-radius: 22px; padding: 2rem; box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s; }
+    .testi:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .testi blockquote { font-size: 0.92rem; color: var(--ink-2); line-height: 1.6; margin: 1rem 0 1.5rem; font-weight: 500; }
     .testi-u { display:flex; align-items:center; gap: 12px; }
-    .testi-av { width: 42px; height: 42px; border-radius: 50%; background: var(--lime-dim); border: 1px solid rgba(180,241,53,0.25); display:flex; align-items:center; justify-content:center; font-weight: 700; color: var(--lime); font-size: 0.85rem; }
-    .testi-nm { font-size: 0.88rem; font-weight: 700; color:#fff; }
-    .testi-rl { font-size: 0.76rem; color: var(--gray-500); }
+    .testi-av { width: 44px; height: 44px; border-radius: 50%; display:flex; align-items:center; justify-content:center; font-weight: 700; color:#fff; font-size: 0.88rem; background: linear-gradient(135deg,var(--blue-2),var(--indigo)); }
+    .testi-nm { font-size: 0.9rem; font-weight: 700; color: var(--ink); }
+    .testi-rl { font-size: 0.77rem; color: var(--gray-2); }
+    .stars { display:flex; gap:2px; color: var(--amber); }
 
     /* ---- Pricing ---- */
     .price-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; align-items: start; }
-    .price {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-      border: 1.5px solid var(--border); border-radius: 24px; padding: 2rem; position: relative;
-      transition: border-color 0.3s, transform 0.3s;
-    }
-    .price:hover { transform: translateY(-4px); }
-    .price.feat { border-color: var(--lime); background: linear-gradient(180deg, rgba(180,241,53,0.08), rgba(255,255,255,0.01)); box-shadow: 0 20px 60px rgba(180,241,53,0.12); }
-    .price-pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--lime); color:#0a0c0a; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; white-space: nowrap; }
-    .price-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--lime); margin-bottom: 0.6rem; }
-    .price-nm { font-size: 1.15rem; font-weight: 700; color:#fff; margin-bottom: 0.4rem; }
-    .price-ds { font-size: 0.8rem; color: var(--gray-400); line-height: 1.5; margin-bottom: 1.5rem; min-height: 2.4em; }
+    .price { background: var(--white); border: 1px solid var(--border); border-radius: 24px; padding: 2rem; position: relative; box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s; }
+    .price:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .price.feat { border: 1.5px solid var(--blue); box-shadow: var(--shadow-blue); }
+    .price-pop { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; white-space: nowrap; box-shadow: var(--shadow-blue); }
+    .price-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.6rem; }
+    .price-nm { font-size: 1.12rem; font-weight: 800; color: var(--ink); letter-spacing:-0.01em; margin-bottom: 0.4rem; }
+    .price-ds { font-size: 0.8rem; color: var(--gray); line-height: 1.5; margin-bottom: 1.5rem; min-height: 2.4em; }
     .price-hr { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
     .pay { margin-bottom: 1rem; }
-    .pay-m { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 0.25rem; }
-    .pay-amt { font-size: 1.9rem; font-weight: 800; color:#fff; letter-spacing: -0.03em; line-height: 1; }
-    .pay-per { font-size: 0.8rem; font-weight: 400; color: var(--gray-500); }
-    .pay-note { font-size: 0.72rem; font-style: italic; color: var(--gray-500); margin-top: 0.3rem; }
+    .pay-m { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-2); margin-bottom: 0.25rem; }
+    .pay-amt { font-size: 1.9rem; font-weight: 800; color: var(--ink); letter-spacing: -0.04em; line-height: 1; }
+    .pay-per { font-size: 0.8rem; font-weight: 500; color: var(--gray-2); }
+    .pay-note { font-size: 0.72rem; font-style: italic; color: var(--gray-2); margin-top: 0.3rem; }
     .price-feat { margin-bottom: 1.5rem; }
-    .price-feat li { display:flex; align-items:center; gap: 9px; font-size: 0.83rem; color: var(--gray-300); margin-bottom: 0.6rem; }
-    .price-feat li svg { flex-shrink: 0; color: var(--lime); }
-    .price-addon { background: rgba(180,241,53,0.07); border: 1px solid rgba(180,241,53,0.15); border-radius: 12px; padding: 0.8rem 1rem; font-size: 0.78rem; color: var(--gray-300); margin-bottom: 1.5rem; line-height: 1.45; }
-    .price-addon strong { color: var(--lime); }
-    .price-cta { display: block; text-align: center; padding: 0.8rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; }
-    .price-cta.line { border: 1.5px solid var(--border-2); color:#fff; }
-    .price-cta.line:hover { border-color: var(--lime); color: var(--lime); }
-    .price-cta.fill { background: var(--lime); color:#0a0c0a; }
-    .price-cta.fill:hover { background: var(--lime-bright); box-shadow: 0 8px 30px rgba(180,241,53,0.35); }
-    .price-foot { text-align: center; font-size: 0.82rem; color: var(--gray-500); margin-top: 2.5rem; }
+    .price-feat li { display:flex; align-items:center; gap: 9px; font-size: 0.84rem; color: var(--gray); margin-bottom: 0.65rem; }
+    .price-feat li .ck { flex-shrink:0; width:18px; height:18px; border-radius:50%; background: rgba(47,143,247,0.12); display:flex; align-items:center; justify-content:center; color: var(--blue); }
+    .price-addon { background: var(--bg-tint); border: 1px solid var(--border); border-radius: 12px; padding: 0.8rem 1rem; font-size: 0.78rem; color: var(--gray); margin-bottom: 1.5rem; line-height: 1.45; }
+    .price-addon strong { color: var(--ink); }
+    .price-cta { display: block; text-align: center; padding: 0.85rem; border-radius: 14px; font-size: 0.9rem; font-weight: 600; transition: all 0.25s; }
+    .price-cta.line { border: 1px solid var(--border); color: var(--ink); background: var(--white); }
+    .price-cta.line:hover { border-color: var(--blue); color: var(--blue); }
+    .price-cta.fill { background: linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; box-shadow: var(--shadow-blue); }
+    .price-cta.fill:hover { transform: translateY(-2px); }
+    .price-foot { text-align: center; font-size: 0.82rem; color: var(--gray-2); margin-top: 2.5rem; }
 
     /* ---- FAQ ---- */
     .faq-wrap { max-width: 720px; margin: 0 auto; }
-    .faq {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-      border: 1px solid var(--border); border-radius: 16px; margin-bottom: 0.75rem; overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .faq.open { border-color: rgba(180,241,53,0.3); }
-    .faq-q { width: 100%; background: none; border: none; cursor: pointer; padding: 1.3rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-size: 0.95rem; font-weight: 600; color: #fff; text-align: left; font-family: inherit; }
-    .faq-ic { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; flex-shrink: 0; transition: all 0.25s; color: var(--gray-400); }
-    .faq.open .faq-ic { background: var(--lime); color:#0a0c0a; transform: rotate(45deg); }
-    .faq-a { display: none; padding: 0 1.5rem 1.3rem; font-size: 0.88rem; line-height: 1.6; color: var(--gray-400); }
+    .faq { background: var(--white); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 0.75rem; overflow: hidden; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s; }
+    .faq.open { box-shadow: var(--shadow); }
+    .faq-q { width: 100%; background: none; border: none; cursor: pointer; padding: 1.3rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-size: 0.96rem; font-weight: 700; color: var(--ink); text-align: left; font-family: inherit; }
+    .faq-ic { width: 27px; height: 27px; border-radius: 50%; background: var(--bg-tint); display:flex; align-items:center; justify-content:center; flex-shrink: 0; transition: all 0.25s; color: var(--gray); }
+    .faq.open .faq-ic { background: linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; transform: rotate(45deg); }
+    .faq-a { display: none; padding: 0 1.5rem 1.3rem; font-size: 0.88rem; line-height: 1.6; color: var(--gray); }
     .faq.open .faq-a { display: block; }
 
-    /* ---- CTA banner ---- */
-    .cta-banner { position: relative; overflow: hidden; border-radius: 28px; border: 1px solid var(--border); background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); padding: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
-    .cta-glow { position: absolute; right: -10%; top: -30%; width: 60%; height: 160%; background: radial-gradient(ellipse at center, rgba(180,241,53,0.18) 0%, transparent 60%); pointer-events: none; }
-    .cta-banner .eyebrow { text-align: left; }
-    .cta-banner h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; color:#fff; line-height: 1.1; margin-bottom: 1rem; }
-    .cta-banner h2 .accent { color: var(--lime); }
-    .cta-banner p { font-size: 0.98rem; line-height: 1.6; color: var(--gray-400); margin-bottom: 2rem; max-width: 420px; }
+    /* ---- CTA ---- */
+    .cta-banner { position: relative; overflow: hidden; border-radius: 28px; padding: 4rem; background: linear-gradient(120deg, #1b3a6b, #2f8ff7 120%); color:#fff; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; box-shadow: var(--shadow-lg); }
+    .cta-banner::before { content:''; position:absolute; right:-10%; top:-40%; width:60%; height:180%; background: radial-gradient(circle at center, rgba(255,255,255,0.18), transparent 60%); pointer-events:none; }
+    .cta-banner .eyebrow { background: rgba(255,255,255,0.18); color:#fff; }
+    .cta-banner h2 { font-size: clamp(1.8rem,3.5vw,2.6rem); font-weight:800; letter-spacing:-0.035em; line-height:1.1; margin-bottom: 1rem; color:#fff; }
+    .cta-banner p { font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.85); margin-bottom: 2rem; max-width: 420px; }
+    .cta-banner .btn-light { color: var(--blue-dk); }
     .cta-visual { position: relative; z-index: 1; }
-    .cta-laptop { background: #0d0f0d; border: 1.5px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 10px 10px 0; box-shadow: 0 30px 80px rgba(180,241,53,0.12); }
 
     /* ---- Footer ---- */
-    footer { border-top: 1px solid var(--border); padding: 4rem 0 2rem; background: var(--black); }
+    footer { background: var(--white); border-top: 1px solid var(--border); padding: 4rem 0 2rem; }
     .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); }
     .foot-brand .logo { margin-bottom: 1rem; }
-    .foot-brand p { font-size: 0.85rem; line-height: 1.6; color: var(--gray-500); max-width: 260px; margin-bottom: 1.25rem; }
+    .foot-brand p { font-size: 0.85rem; line-height: 1.6; color: var(--gray-2); max-width: 260px; margin-bottom: 1.25rem; }
     .foot-soc { display: flex; gap: 10px; }
-    .foot-soc a { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); display:flex; align-items:center; justify-content:center; color: var(--gray-400); transition: all 0.2s; }
-    .foot-soc a:hover { background: var(--lime); color:#0a0c0a; border-color: var(--lime); }
-    .foot-col h4 { font-size: 0.82rem; font-weight: 700; color:#fff; margin-bottom: 1.1rem; }
+    .foot-soc a { width: 38px; height: 38px; border-radius: 11px; background: var(--bg-tint); display:flex; align-items:center; justify-content:center; color: var(--gray); transition: all 0.25s; }
+    .foot-soc a:hover { background: linear-gradient(180deg,var(--blue-2),var(--blue)); color:#fff; transform: translateY(-2px); }
+    .foot-col h4 { font-size: 0.82rem; font-weight: 700; color: var(--ink); margin-bottom: 1.1rem; }
     .foot-col li { margin-bottom: 0.65rem; }
-    .foot-col a { font-size: 0.84rem; color: var(--gray-500); transition: color 0.2s; }
-    .foot-col a:hover { color: var(--lime); }
-    .foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; font-size: 0.8rem; color: var(--gray-500); gap: 1rem; flex-wrap: wrap; }
+    .foot-col a { font-size: 0.84rem; color: var(--gray-2); transition: color 0.2s; }
+    .foot-col a:hover { color: var(--blue); }
+    .foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; font-size: 0.8rem; color: var(--gray-2); gap: 1rem; flex-wrap: wrap; }
     .foot-bottom .links { display: flex; gap: 1.5rem; }
+    .foot-bottom .links a:hover { color: var(--blue); }
 
     /* ---- Responsive ---- */
     @media (max-width: 980px) {
       .nav-links { display: none; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .hero-visual { display: none; }
+      .hero-grid { grid-template-columns: 1fr; gap: 4rem; }
+      .hero-float { display: none; }
       .exp-grid, .feat-grid, .panel-grid, .testi-grid, .price-grid { grid-template-columns: 1fr; }
-      .stats-card { grid-template-columns: 1fr 1fr; }
+      .stats-card { grid-template-columns: 1fr 1fr; gap: 2.5rem 1rem; }
       .stat:not(:last-child)::after { display: none; }
       .steps { grid-template-columns: 1fr; }
       .steps::before { display: none; }
       .cta-banner { grid-template-columns: 1fr; padding: 2.5rem; }
       .cta-visual { display: none; }
-      .trusted-card { flex-direction: column; align-items: flex-start; }
-      .trusted-label { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 1rem; max-width: none; width: 100%; }
       .foot-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 560px) {
@@ -347,6 +337,7 @@
       .stats-card { grid-template-columns: 1fr; }
       .foot-grid { grid-template-columns: 1fr; }
       .foot-bottom { flex-direction: column; text-align: center; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -358,155 +349,160 @@
   <div class="wrap nav-inner">
     <a href="#" class="logo">VERTICAL<span class="dot"></span></a>
     <div class="nav-links">
-      <a href="#experiences">Product <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></a>
-      <a href="#panels">Solutions <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></a>
+      <a href="#experiences">Product</a>
       <a href="#features">Features</a>
+      <a href="#panels">Solutions</a>
       <a href="#pricing">Pricing</a>
-      <a href="#faq">Resources <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></a>
+      <a href="#faq">Resources</a>
     </div>
-    <a href="#pricing" class="btn btn-ghost">Book a Demo <span class="btn-arrow"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    <div class="nav-cta">
+      <a href="#pricing" class="nav-ghost">Sign in</a>
+      <a href="#pricing" class="btn btn-blue">Book a Demo</a>
+    </div>
   </div>
 </nav>
 
 <!-- ===== HERO ===== -->
 <header class="hero">
-  <div class="hero-glow"></div>
-  <svg class="hero-arc" viewBox="0 0 900 900" fill="none">
-    <path d="M900 100 Q300 150 250 750" stroke="url(#arcg)" stroke-width="1.5" fill="none"/>
-    <circle cx="468" cy="270" r="4" fill="#b4f135"/>
-    <defs><linearGradient id="arcg" x1="900" y1="0" x2="250" y2="750" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#b4f135" stop-opacity="0.8"/><stop offset="1" stop-color="#b4f135" stop-opacity="0"/>
-    </linearGradient></defs>
-  </svg>
   <div class="wrap hero-grid">
-    <div class="hero-left">
-      <h1>The complete<br><span class="accent">water management</span><br>system.</h1>
-      <p class="hero-sub">One platform to run your entire water distribution business — from orders to deliveries to revenue.</p>
+    <div class="hero-left reveal in">
+      <div class="hero-badge"><span class="pin"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> UAE</span> Built for water distributors</div>
+      <h1>The complete<br><span class="grad">water management</span><br>system.</h1>
+      <p class="hero-sub">One platform to run your entire water distribution business — from orders and deliveries to drivers, subscriptions and revenue.</p>
       <div class="hero-cta">
-        <a href="#pricing" class="btn btn-lime">Book a Demo <span class="btn-arrow"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-        <a href="#features" class="btn btn-ghost">Explore Features</a>
+        <a href="#pricing" class="btn btn-blue">Book a Demo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#features" class="btn btn-light">Explore Features</a>
       </div>
-      <div class="hero-chips">
-        <div class="chip">
-          <span class="chip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
-          <span class="chip-tx">End-to-end<br>Operations</span>
-        </div>
-        <div class="chip">
-          <span class="chip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-          <span class="chip-tx">Real-time<br>Tracking</span>
-        </div>
-        <div class="chip">
-          <span class="chip-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></span>
-          <span class="chip-tx">Data-driven<br>Growth</span>
-        </div>
+      <div class="hero-trust">
+        <div class="hero-avatars"><span>AK</span><span>SR</span><span>MJ</span><span>+</span></div>
+        <span>Trusted by water distributors across the UAE</span>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="phone-stack">
-        <div class="phone-frame pf4"></div>
-        <div class="phone-frame pf3"></div>
-        <div class="phone-frame pf2"></div>
-        <div class="phone-frame pf1"></div>
+
+    <div class="hero-visual reveal in d1">
+      <!-- floating iOS-style cards -->
+      <div class="hero-float hf-1">
+        <span class="fic" style="background:linear-gradient(135deg,#4ade80,#16a34a);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <div><div class="fv">98%</div><div class="fl">Delivery success</div></div>
+      </div>
+      <div class="hero-float hf-2">
+        <span class="fic" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg></span>
+        <div><div class="fv">142</div><div class="fl">WhatsApp orders</div></div>
+      </div>
+
+      <!-- admin dashboard browser -->
+      <div class="browser">
+        <div class="browser-bar"><i></i><i></i><i></i><div class="browser-url">app.verticalwms.ae/dashboard</div></div>
+        <div class="dash">
+          <div class="dash-head">
+            <div><h4>Good afternoon, Admin</h4><div class="sub">Monday, 15 June 2026</div></div>
+            <div class="csv"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Export CSV</div>
+          </div>
+          <div class="kpi-row">
+            <div class="kpi b"><div class="kt">Revenue</div><div class="kv">AED 248K</div><div class="ks">↑ 1,820 payments</div><div class="kic" style="background:linear-gradient(135deg,#3b9eff,#1b7ae6);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div>
+            <div class="kpi p"><div class="kt">Total Orders</div><div class="kv">1,842</div><div class="ks">↑ Avg AED 34</div><div class="kic" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg></div></div>
+            <div class="kpi a"><div class="kt">Pending</div><div class="kv">12</div><div class="ks">↑ 2 out for delivery</div><div class="kic" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div></div>
+            <div class="kpi g"><div class="kt">Success Rate</div><div class="kv">98%</div><div class="ks">↑ 1,805 of 1,842</div><div class="kic" style="background:linear-gradient(135deg,#4ade80,#16a34a);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12A10 10 0 1 1 12 2"/><path d="M22 4L12 14.01l-3-3"/></svg></div></div>
+          </div>
+          <div class="chartbox">
+            <div class="ch-top"><div class="ch-t">Revenue &amp; Order Value Over Time</div><div class="ch-leg"><span><i class="ch-dot" style="background:var(--blue);"></i>Collected</span><span><i class="ch-dot" style="background:var(--purple);"></i>Order Value</span></div></div>
+            <svg class="chart-area" viewBox="0 0 320 80" fill="none" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="cgrad" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#8b5cf6" stop-opacity="0.25"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></linearGradient>
+              </defs>
+              <path d="M0 72 C40 70 60 30 95 22 C130 14 150 50 190 58 C230 66 270 64 320 62 L320 80 L0 80 Z" fill="url(#cgrad)"/>
+              <path d="M0 72 C40 70 60 30 95 22 C130 14 150 50 190 58 C230 66 270 64 320 62" stroke="#8b5cf6" stroke-width="2" fill="none"/>
+              <path d="M0 76 C60 75 120 74 190 73 C250 72 290 71 320 70" stroke="#2f8ff7" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
-<!-- ===== TRUSTED ===== -->
-<div class="wrap trusted">
-  <div class="trusted-card">
-    <div class="trusted-label">Trusted by water distributors across the UAE</div>
-    <div class="trusted-logos">
-      <span class="tlogo">al ain</span>
-      <span class="tlogo serif">masafi</span>
-      <span class="tlogo serif">Mai Dubai</span>
-      <span class="tlogo">AQUAFINA</span>
-      <span class="tlogo">OASIS</span>
-    </div>
-  </div>
-</div>
-
 <!-- ===== THREE EXPERIENCES ===== -->
-<section class="sec" id="experiences">
+<section class="sec white" id="experiences">
   <div class="wrap">
-    <div class="eyebrow">Built for Modern Distributors</div>
-    <div class="sec-head">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Built for Modern Distributors</div>
       <h2>One platform. Three connected experiences.</h2>
-      <p>Vertical WMS connects your operations, customers and delivery teams in real time. Designed to reduce manual work, improve efficiency and grow your business.</p>
+      <p>Vertical WMS connects your operations, customers and delivery teams in real time — designed to reduce manual work, improve efficiency and grow your business.</p>
     </div>
 
     <div class="exp-grid">
       <!-- Admin -->
-      <div class="exp-card">
-        <div class="exp-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+      <div class="exp-card reveal">
+        <div class="exp-ic ic-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
         <h3>Admin Panel</h3>
         <p>Central command for products, operations, orders, deliveries, customers, subscriptions, drivers and finance.</p>
         <div class="exp-device">
-          <div class="laptop">
-            <div class="laptop-bar"><span></span><span></span><span></span></div>
-            <div class="laptop-screen">
-              <div class="mini-row"><span class="mini-h">Dashboard</span><span class="mini-pill">Live</span></div>
-              <div class="mini-kpis">
-                <div class="mini-kpi"><b>AED 245K</b><span>Revenue</span></div>
-                <div class="mini-kpi"><b>1,842</b><span>Orders</span></div>
-                <div class="mini-kpi"><b>98%</b><span>Delivered</span></div>
+          <div class="browser">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <div class="cwm" style="background:linear-gradient(180deg,#fafbfd,#f4f7fb);padding:11px;">
+              <div class="cwm-top"><b>Dashboard</b><span style="font-size:0.5rem;color:var(--gray-2);">This week</span></div>
+              <div class="kpi-row" style="grid-template-columns:1fr 1fr;gap:7px;margin-bottom:9px;">
+                <div class="kpi b"><div class="kt">Revenue</div><div class="kv">AED 248K</div><div class="kic" style="width:18px;height:18px;top:7px;right:7px;background:linear-gradient(135deg,#3b9eff,#1b7ae6);"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div>
+                <div class="kpi g"><div class="kt">Delivered</div><div class="kv">98%</div><div class="kic" style="width:18px;height:18px;top:7px;right:7px;background:linear-gradient(135deg,#4ade80,#16a34a);"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div></div>
               </div>
-              <div class="mini-chart"><i style="height:40%"></i><i style="height:60%"></i><i style="height:45%"></i><i style="height:75%"></i><i style="height:55%"></i><i style="height:85%"></i><i style="height:70%"></i><i style="height:95%"></i><i style="height:65%"></i><i style="height:80%"></i></div>
+              <div class="chartbox" style="padding:9px;">
+                <div class="ch-top"><div class="ch-t" style="font-size:0.55rem;">Orders Over Time</div></div>
+                <svg class="chart-area" style="height:54px;" viewBox="0 0 300 60" fill="none" preserveAspectRatio="none"><defs><linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#2f8ff7" stop-opacity="0.25"/><stop offset="1" stop-color="#2f8ff7" stop-opacity="0"/></linearGradient></defs><path d="M0 52 C40 48 70 20 110 18 C150 16 180 40 220 44 C260 48 280 38 300 36 L300 60 L0 60 Z" fill="url(#cg2)"/><path d="M0 52 C40 48 70 20 110 18 C150 16 180 40 220 44 C260 48 280 38 300 36" stroke="#2f8ff7" stroke-width="2" fill="none"/></svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Customer -->
-      <div class="exp-card">
-        <div class="exp-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg></div>
+      <div class="exp-card reveal d1">
+        <div class="exp-ic ic-purple"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg></div>
         <h3>Customer App</h3>
-        <p>Lets customers place new orders, track status, manage subscriptions, message support and get updates.</p>
+        <p>Lets customers place orders, track status, manage subscriptions, message support and collect rewards.</p>
         <div class="exp-device">
-          <div class="pmock">
-            <div class="pmock-notch"></div>
-            <div class="pmock-screen">
-              <div class="pm-top"><b>Hi, Ahmed</b><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9aa39a" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></div>
-              <div class="pm-card">
-                <div class="lbl">NEXT DELIVERY</div>
-                <div class="val">Tomorrow, 8:00 – 10:00 AM</div>
-                <div class="sub">2 × 19L Bottles</div>
+          <div class="browser">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <div class="cwm">
+              <div class="cwm-top"><b style="color:var(--ink);">aqua dubai<span style="color:var(--blue);">.</span></b><span style="font-size:0.5rem;color:var(--gray-2);">Overview</span></div>
+              <div class="cwm-hero">
+                <div class="l">Your next delivery</div>
+                <div class="big">AED 15.00</div>
+                <div class="row"><span class="day">Delivery Day: Monday</span><span class="pay">Pay now</span></div>
               </div>
-              <div class="pm-actions">
-                <div class="pm-act"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div>
-                <div class="pm-act"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/></svg></div>
-                <div class="pm-act"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg></div>
-                <div class="pm-act"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+              <div class="cwm-grid">
+                <div class="cwm-box"><div class="bl">waterflow. points</div><div class="pts"><span class="star">★</span><span class="ptv">24.600</span></div></div>
+                <div class="cwm-box"><div class="bl">Delivery streak</div><div class="cwm-streak"><i class="fill"></i><i class="fill"></i><i class="off"></i></div></div>
               </div>
-              <div class="pm-refer"><b>Refer &amp; Earn</b><span class="mini-btn">Invite</span></div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Rider -->
-      <div class="exp-card">
-        <div class="exp-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div class="exp-card reveal d2">
+        <div class="exp-ic ic-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
         <h3>Delivery Rider App</h3>
         <p>Gives drivers their allocated orders, optimised routes, delivery confirmation and empty bottle tracking.</p>
         <div class="exp-device">
-          <div class="pmock">
-            <div class="pmock-notch"></div>
-            <div class="pmock-screen">
-              <div class="pm-top"><b>Today's Route</b><span style="font-size:0.45rem;color:#9aa39a;">8 Stops · 24 Orders</span></div>
-              <div class="pm-map">
-                <svg viewBox="0 0 160 110" fill="none"><path d="M20 90 Q50 70 70 80 T120 40 L140 25" stroke="#b4f135" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 3" opacity="0.8"/></svg>
-                <div class="pm-pin" style="left:14px;top:78px;"></div>
-                <div class="pm-pin" style="left:64px;top:72px;background:#fff;"></div>
-                <div class="pm-pin" style="left:128px;top:18px;"></div>
-              </div>
-              <div class="pm-next">
-                <div><div class="nm">Dubai Marina</div><div class="ds">2 × 19L Bottles</div></div>
-                <span class="pm-nav">Navigate</span>
-              </div>
-              <div class="pm-foot">
-                <div><b>5/8</b><span>Completed</span></div>
-                <div><b>AED 185</b><span>Earnings</span></div>
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-scr">
+              <div class="ph-status"><span>13:16</span><span>Dashboard</span><span>●●● ⌁ ▮</span></div>
+              <div class="ph-greet-s">Time to do what you do best</div>
+              <div class="ph-greet">What's up, Ramesh!</div>
+              <div class="ph-sheet">
+                <div class="ph-ov"><b>Overview</b><span class="date">Mon, Jun 15</span></div>
+                <div class="ph-cards">
+                  <div class="ph-c"><div class="top"><span class="ci" style="background:rgba(47,143,247,0.12);color:var(--blue);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg></span><span class="cn">Shift</span></div><div class="cv green">ON SHIFT</div><span class="ph-pill pill-green">Active</span></div>
+                  <div class="ph-c"><div class="top"><span class="ci" style="background:rgba(139,92,246,0.12);color:var(--purple);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s7 7 7 12a7 7 0 0 1-14 0c0-5 7-12 7-12z"/></svg></span><span class="cn">Trips</span></div><div class="cv">5 <span>/ 7</span></div><span class="ph-pill pill-blue">Jobs</span></div>
+                  <div class="ph-c"><div class="top"><span class="ci" style="background:rgba(34,197,94,0.12);color:var(--green-dk);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/></svg></span><span class="cn">Cash Box</span></div><div class="cv">229 <span>AED</span></div><span class="ph-pill pill-green">Collected</span></div>
+                  <div class="ph-c"><div class="top"><span class="ci" style="background:rgba(236,72,153,0.12);color:var(--pink);"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></span><span class="cn">Earnings</span></div><div class="cv">2050 <span>AED</span></div><span class="ph-pill pill-pink">Est. Net</span></div>
+                </div>
+                <div class="ph-tabs">
+                  <div class="ph-tab on"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Dashboard</div>
+                  <div class="ph-tab"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s7 7 7 12a7 7 0 0 1-14 0c0-5 7-12 7-12z"/></svg>Deliveries</div>
+                  <div class="ph-tab"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Schedule</div>
+                </div>
               </div>
             </div>
           </div>
@@ -517,67 +513,67 @@
 </section>
 
 <!-- ===== FEATURES ===== -->
-<section class="sec" id="features" style="background: var(--bg-soft);">
+<section class="sec tint" id="features">
   <div class="wrap">
-    <div class="eyebrow">Platform Capabilities</div>
-    <div class="sec-head">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Platform Capabilities</div>
       <h2>Everything you need to run a modern water fleet</h2>
       <p>From catalogue management and WhatsApp automation to optimised delivery routes — full end-to-end operational control.</p>
     </div>
     <div class="feat-grid">
-      <div class="feat"><div class="feat-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Order Management</h3><p>One-off and recurring orders via web, app and WhatsApp — with real-time status updates for every customer.</p></div>
-      <div class="feat"><div class="feat-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/></svg></div><h3>Route Optimisation</h3><p>Algorithmically optimised delivery routes served to driver apps daily — cutting fuel costs and missed deliveries.</p></div>
-      <div class="feat"><div class="feat-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div><h3>WhatsApp Automation</h3><p>End-to-end WhatsApp ordering — customers place, modify and track orders without calling your team.</p></div>
-      <div class="feat"><div class="feat-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h3>Subscription Management</h3><p>Flexible subscription plans with auto-renewal, pause and cancel — all managed from the customer portal.</p></div>
-      <div class="feat"><div class="feat-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Finance &amp; Revenue Reports</h3><p>Per-driver, per-route and per-site revenue reports with expected vs actual reconciliation built in.</p></div>
-      <div class="feat"><div class="feat-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>White-Label Ready</h3><p>Deploy under your own brand across Admin, Customer and Driver panels — fully customised to your identity.</p></div>
+      <div class="feat reveal"><div class="feat-ic ic-blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div><h3>Order Management</h3><p>One-off and recurring orders via web, app and WhatsApp — with real-time status updates for every customer.</p></div>
+      <div class="feat reveal d1"><div class="feat-ic ic-purple"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/></svg></div><h3>Route Optimisation</h3><p>Algorithmically optimised delivery routes served to driver apps daily — cutting fuel costs and missed deliveries.</p></div>
+      <div class="feat reveal d2"><div class="feat-ic ic-green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg></div><h3>WhatsApp Automation</h3><p>End-to-end WhatsApp ordering — customers place, modify and track orders without calling your team.</p></div>
+      <div class="feat reveal"><div class="feat-ic" style="background:linear-gradient(135deg,#fb923c,#ea580c);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h3>Subscription Management</h3><p>Flexible subscription plans with auto-renewal, pause and cancel — all managed from the customer portal.</p></div>
+      <div class="feat reveal d1"><div class="feat-ic" style="background:linear-gradient(135deg,#f472b6,#db2777);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Finance &amp; Revenue Reports</h3><p>Per-driver, per-route and per-site revenue reports with expected vs actual reconciliation built in.</p></div>
+      <div class="feat reveal d2"><div class="feat-ic" style="background:linear-gradient(135deg,#22d3ee,#0891b2);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>White-Label Ready</h3><p>Deploy under your own brand across Admin, Customer and Driver panels — fully customised to your identity.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ===== PANELS ===== -->
-<section class="sec" id="panels">
+<section class="sec white" id="panels">
   <div class="wrap">
-    <div class="eyebrow">Every Plan Includes</div>
-    <div class="sec-head">
+    <div class="sec-head reveal">
+      <div class="eyebrow">Every Plan Includes</div>
       <h2>The full Vertical WMS core feature set</h2>
       <p>Both plans ship with the complete Admin, Customer and Driver experience. The difference is scale, channels and a few add-ons — not feature gaps.</p>
     </div>
     <div class="panel-grid">
-      <div class="panel">
-        <div class="panel-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="panel reveal">
+        <div class="panel-ic ic-blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
         <h3>Admin Panel (Web)</h3>
         <ul class="check">
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Product catalogue &amp; operations setup</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Order management &amp; WhatsApp ordering</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Delivery management &amp; route planning</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Customer &amp; subscription management</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Driver / on-site management</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Finance reports per driver / site / route</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Product catalogue &amp; operations setup</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Order management &amp; WhatsApp ordering</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Delivery management &amp; route planning</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Customer &amp; subscription management</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Driver / on-site management</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Finance reports per driver / site / route</li>
         </ul>
       </div>
-      <div class="panel">
-        <div class="panel-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+      <div class="panel reveal d1">
+        <div class="panel-ic ic-purple"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
         <h3>Customer Panel (Web &amp; App)</h3>
         <ul class="check">
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Place new orders (one-off or recurring)</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Real-time order status updates</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Subscription view &amp; management</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Support requests &amp; resolution tracking</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>In-app / in-portal messages</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Rewards, referrals &amp; order history</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Place new orders (one-off or recurring)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Real-time order status updates</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Subscription view &amp; management</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Support requests &amp; resolution tracking</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>In-app / in-portal messages</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Rewards, referrals &amp; order history</li>
         </ul>
       </div>
-      <div class="panel">
-        <div class="panel-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div class="panel reveal d2">
+        <div class="panel-ic ic-green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
         <h3>Driver Panel (App)</h3>
         <ul class="check">
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Daily dashboard: shift, trips, cash, earnings</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Orders allocated for the day</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Optimised delivery route</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Delivery marking (delivered / failed)</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Return empty bottle tracker</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Cash &amp; receipt reconciliation</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Daily dashboard: shift, trips, cash, earnings</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Orders allocated for the day</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Optimised delivery route</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Delivery marking (delivered / failed)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Return empty bottle tracker</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Cash &amp; receipt reconciliation</li>
         </ul>
       </div>
     </div>
@@ -585,69 +581,47 @@
 </section>
 
 <!-- ===== STATS ===== -->
-<section class="sec" style="padding-top: 0;">
+<section class="sec tint">
   <div class="wrap">
-    <div class="stats-card">
-      <div class="stat">
-        <div class="stat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div>
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Integrated</div>
-        <div class="stat-desc">All your operations connected in one real-time platform.</div>
-      </div>
-      <div class="stat">
-        <div class="stat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-        <div class="stat-num">60%</div>
-        <div class="stat-label">Less Manual Work</div>
-        <div class="stat-desc">Automate orders, billing and delivery processes.</div>
-      </div>
-      <div class="stat">
-        <div class="stat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <div class="stat-num white">Real-time</div>
-        <div class="stat-label">Visibility</div>
-        <div class="stat-desc">Live tracking of orders, drivers, returns and revenue.</div>
-      </div>
-      <div class="stat">
-        <div class="stat-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg></div>
-        <div class="stat-num white">Data-driven</div>
-        <div class="stat-label">Growth</div>
-        <div class="stat-desc">Make smarter decisions with actionable insights.</div>
-      </div>
+    <div class="stats-card reveal">
+      <div class="stat"><div class="stat-ic ic-blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div><div class="stat-num"><span class="g">100%</span></div><div class="stat-label">Integrated</div><div class="stat-desc">All your operations connected in one real-time platform.</div></div>
+      <div class="stat"><div class="stat-ic ic-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div class="stat-num"><span class="g">60%</span></div><div class="stat-label">Less Manual Work</div><div class="stat-desc">Automate orders, billing and delivery processes.</div></div>
+      <div class="stat"><div class="stat-ic ic-green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="stat-num">Real-time</div><div class="stat-label">Visibility</div><div class="stat-desc">Live tracking of orders, drivers, returns and revenue.</div></div>
+      <div class="stat"><div class="stat-ic" style="background:linear-gradient(135deg,#fb923c,#ea580c);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg></div><div class="stat-num">Data-driven</div><div class="stat-label">Growth</div><div class="stat-desc">Make smarter decisions with actionable insights.</div></div>
     </div>
   </div>
 </section>
 
 <!-- ===== HOW IT WORKS ===== -->
-<section class="sec" id="how" style="background: var(--bg-soft);">
+<section class="sec white" id="how">
   <div class="wrap">
-    <div class="eyebrow">Getting Started</div>
-    <div class="sec-head"><h2>Go live in 3 simple steps</h2><p>Simple, supported, and designed to fit the way you operate. From setup to first delivery, value from day one.</p></div>
+    <div class="sec-head reveal"><div class="eyebrow">Getting Started</div><h2>Go live in 3 simple steps</h2><p>Simple, supported, and designed to fit the way you operate. From setup to first delivery — value from day one.</p></div>
     <div class="steps">
-      <div class="step"><div class="step-n">1</div><h3>Set Up Your Catalogue</h3><p>Configure your product range, pricing, zones and delivery schedules in the Admin Panel — in under an hour.</p></div>
-      <div class="step"><div class="step-n">2</div><h3>Onboard Your Fleet</h3><p>Add driver accounts, assign routes and upload your customer base. The Driver App is ready immediately.</p></div>
-      <div class="step"><div class="step-n on">3</div><h3>Start Delivering</h3><p>Customers order via web, app or WhatsApp. Drivers get optimised routes. You get real-time visibility.</p></div>
+      <div class="step reveal"><div class="step-n">1</div><h3>Set Up Your Catalogue</h3><p>Configure your product range, pricing, zones and delivery schedules in the Admin Panel — in under an hour.</p></div>
+      <div class="step reveal d1"><div class="step-n">2</div><h3>Onboard Your Fleet</h3><p>Add driver accounts, assign routes and upload your customer base. The Driver App is ready immediately.</p></div>
+      <div class="step reveal d2"><div class="step-n on">3</div><h3>Start Delivering</h3><p>Customers order via web, app or WhatsApp. Drivers get optimised routes. You get real-time visibility.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ===== TESTIMONIALS ===== -->
-<section class="sec" id="testimonials">
+<section class="sec tint" id="testimonials">
   <div class="wrap">
-    <div class="eyebrow">Customer Stories</div>
-    <div class="sec-head"><h2>Trusted by UAE water distributors</h2><p>Our clients don't just work with us — they grow with us. Here's what operators across the UAE say.</p></div>
+    <div class="sec-head reveal"><div class="eyebrow">Customer Stories</div><h2>Trusted by UAE water distributors</h2><p>Our clients don't just work with us — they grow with us. Here's what operators across the UAE say.</p></div>
     <div class="testi-grid">
-      <div class="testi">
-        <svg width="34" height="24" viewBox="0 0 43 30" fill="none"><path d="M4.25 30L10 20C7.25 20 4.9 19 2.94 17 .98 15 0 12.75 0 10S.98 4.9 2.94 2.94 7.25 0 10 0s5.1.98 7.06 2.94S20 7.25 20 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L10 30H4.25zm22.5 0L32.5 20c-2.75 0-5.1-1-7.06-3-1.96-2-2.94-4.25-2.94-7s.98-5.1 2.94-7.06S29.75 0 32.5 0s5.1.98 7.06 2.94S42.5 7.25 42.5 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L32.5 30H26.75z" fill="#b4f135" fill-opacity=".25"/></svg>
+      <div class="testi reveal">
+        <div class="stars">★★★★★</div>
         <blockquote>"Vertical WMS replaced three spreadsheets and a WhatsApp group. Our delivery accuracy jumped from 76% to 97% in the first month — it paid for itself in 6 weeks."</blockquote>
         <div class="testi-u"><div class="testi-av">AK</div><div><div class="testi-nm">Ahmed Al-Karim</div><div class="testi-rl">Operations Director, Pure Drop UAE</div></div></div>
       </div>
-      <div class="testi">
-        <svg width="34" height="24" viewBox="0 0 43 30" fill="none"><path d="M4.25 30L10 20C7.25 20 4.9 19 2.94 17 .98 15 0 12.75 0 10S.98 4.9 2.94 2.94 7.25 0 10 0s5.1.98 7.06 2.94S20 7.25 20 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L10 30H4.25zm22.5 0L32.5 20c-2.75 0-5.1-1-7.06-3-1.96-2-2.94-4.25-2.94-7s.98-5.1 2.94-7.06S29.75 0 32.5 0s5.1.98 7.06 2.94S42.5 7.25 42.5 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L32.5 30H26.75z" fill="#b4f135" fill-opacity=".25"/></svg>
+      <div class="testi reveal d1">
+        <div class="stars">★★★★★</div>
         <blockquote>"The WhatsApp ordering flow was the game-changer. Customers love it and our call-centre volume dropped by 60%. The efficiency alone justifies the Growth Plan."</blockquote>
         <div class="testi-u"><div class="testi-av">SR</div><div><div class="testi-nm">Sara Rasheed</div><div class="testi-rl">CEO, AquaSwift Distribution</div></div></div>
       </div>
-      <div class="testi">
-        <svg width="34" height="24" viewBox="0 0 43 30" fill="none"><path d="M4.25 30L10 20C7.25 20 4.9 19 2.94 17 .98 15 0 12.75 0 10S.98 4.9 2.94 2.94 7.25 0 10 0s5.1.98 7.06 2.94S20 7.25 20 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L10 30H4.25zm22.5 0L32.5 20c-2.75 0-5.1-1-7.06-3-1.96-2-2.94-4.25-2.94-7s.98-5.1 2.94-7.06S29.75 0 32.5 0s5.1.98 7.06 2.94S42.5 7.25 42.5 10c0 .96-.11 1.84-.34 2.66-.23.82-.58 1.6-1.04 2.34L32.5 30H26.75z" fill="#b4f135" fill-opacity=".25"/></svg>
-        <blockquote>"We went with the lifetime licence — best decision for a growing company. No monthly pressure, and the bottle-return tracking solved a major reconciliation headache."</blockquote>
+      <div class="testi reveal d2">
+        <div class="stars">★★★★★</div>
+        <blockquote>"We went with the lifetime licence — best decision for a growing company. The bottle-return tracking solved a major reconciliation headache for us."</blockquote>
         <div class="testi-u"><div class="testi-av">MJ</div><div><div class="testi-nm">Mohammed Jaber</div><div class="testi-rl">Founder, Oasis Water Delivery</div></div></div>
       </div>
     </div>
@@ -655,13 +629,11 @@
 </section>
 
 <!-- ===== PRICING ===== -->
-<section class="sec" id="pricing" style="background: var(--bg-soft);">
+<section class="sec white" id="pricing">
   <div class="wrap">
-    <div class="eyebrow">Pricing &amp; Plans</div>
-    <div class="sec-head"><h2>Choose the plan that matches your scale</h2><p>Two straightforward plans that scale with your fleet — all white-labelled to your brand.</p></div>
+    <div class="sec-head reveal"><div class="eyebrow">Pricing &amp; Plans</div><h2>Choose the plan that matches your scale</h2><p>Two straightforward plans that scale with your fleet — all white-labelled to your brand.</p></div>
     <div class="price-grid">
-      <!-- Starter -->
-      <div class="price">
+      <div class="price reveal">
         <div class="price-lbl">Starter Plan</div>
         <div class="price-nm">For single-site operations</div>
         <div class="price-ds">Everything needed to digitise a water distribution operation — sized for a smaller fleet.</div>
@@ -670,17 +642,16 @@
         <div class="pay"><div class="pay-m">One-Time Lifetime</div><div><span class="pay-amt">AED 50,000</span></div><div class="pay-note">Then AED 5,000/yr from year 2 · 1st year free</div></div>
         <hr class="price-hr">
         <ul class="price-feat">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Admin Panel (Web)</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Customer Panel (Web)</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Driver Panel (App)</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>10 driver users · 500 customers</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>All core features</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Admin Panel (Web)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Customer Panel (Web)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Driver Panel (App)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>10 driver users · 500 customers</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>All core features</li>
         </ul>
         <div class="price-addon"><strong>Add-on:</strong> Customer Mobile App — AED 15,000 one-time + AED 1,500/mo</div>
         <a href="#" class="price-cta line">Get Started</a>
       </div>
-      <!-- Growth -->
-      <div class="price feat">
+      <div class="price feat reveal d1">
         <div class="price-pop">Most Popular</div>
         <div class="price-lbl">Growth Plan</div>
         <div class="price-nm">For multi-site fleets ready to scale</div>
@@ -690,18 +661,17 @@
         <div class="pay"><div class="pay-m">One-Time Lifetime</div><div><span class="pay-amt">AED 80,000</span></div><div class="pay-note">Then AED 6,000/yr from year 2 · 1st year free</div></div>
         <hr class="price-hr">
         <ul class="price-feat">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Admin Panel (Web)</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Customer Panel (Web &amp; App)</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Driver Panel (App)</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>25 driver users · 2,000 customers</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>All core features</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>WhatsApp Automation included</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Admin Panel (Web)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Customer Panel (Web &amp; App)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Driver Panel (App)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>25 driver users · 2,000 customers</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>All core features</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>WhatsApp Automation included</li>
         </ul>
         <div class="price-addon"><strong>WhatsApp usage:</strong> AED 2 per active customer/mo · pay-as-you-go</div>
         <a href="#" class="price-cta fill">Get Started</a>
       </div>
-      <!-- Enterprise -->
-      <div class="price">
+      <div class="price reveal d2">
         <div class="price-lbl">Enterprise Plan</div>
         <div class="price-nm">For large &amp; multi-region operators</div>
         <div class="price-ds">Custom pricing for operators with specific workflow, integration or compliance requirements.</div>
@@ -709,10 +679,10 @@
         <div class="pay"><div class="pay-m">Pricing</div><div><span class="pay-amt">Custom</span></div><div class="pay-note">Monthly or one-time lifetime · fully custom available</div></div>
         <hr class="price-hr">
         <ul class="price-feat">
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Unlimited drivers &amp; customers</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Custom feature development</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Dedicated onboarding, SLAs &amp; support</li>
-          <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Custom integrations (ERP, payments)</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Unlimited drivers &amp; customers</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Custom feature development</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Dedicated onboarding, SLAs &amp; support</li>
+          <li><span class="ck"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Custom integrations (ERP, payments)</li>
         </ul>
         <div style="margin-bottom:1.5rem;"></div>
         <a href="#" class="price-cta line">Get In Touch</a>
@@ -723,11 +693,10 @@
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="sec" id="faq">
+<section class="sec tint" id="faq">
   <div class="wrap">
-    <div class="eyebrow">FAQ</div>
-    <div class="sec-head"><h2>Frequently Asked Questions</h2><p>Everything you need to know before you decide. Can't find your answer? Just reach out.</p></div>
-    <div class="faq-wrap">
+    <div class="sec-head reveal"><div class="eyebrow">FAQ</div><h2>Frequently Asked Questions</h2><p>Everything you need to know before you decide. Can't find your answer? Just reach out.</p></div>
+    <div class="faq-wrap reveal">
       <div class="faq open"><button class="faq-q" onclick="tg(this)">What's the difference between the Starter and Growth plans?<span class="faq-ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a">Both plans include the complete Admin, Customer and Driver feature set. The key differences are scale (10 drivers / 500 customers on Starter vs 25 drivers / 2,000 customers on Growth), and the Customer Mobile App and WhatsApp Automation — included in Growth but available as add-ons on Starter.</div></div>
       <div class="faq"><button class="faq-q" onclick="tg(this)">Can I switch from monthly to the lifetime licence later?<span class="faq-ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a">Yes. You can upgrade from a monthly subscription to a lifetime licence at any time. Contact us and we'll provide a pro-rated or full-price quote for the switch.</div></div>
       <div class="faq"><button class="faq-q" onclick="tg(this)">What does "white-labelled" mean in practice?<span class="faq-ic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span></button><div class="faq-a">Your customers and drivers see your brand — your logo, colours and domain. The Admin, Customer and Driver panels are deployed under your company name, with no "Vertical WMS" branding visible to end users.</div></div>
@@ -738,28 +707,27 @@
   </div>
 </section>
 
-<!-- ===== CTA BANNER ===== -->
-<section class="sec" style="padding-top: 0;">
+<!-- ===== CTA ===== -->
+<section class="sec white">
   <div class="wrap">
-    <div class="cta-banner">
-      <div class="cta-glow"></div>
+    <div class="cta-banner reveal">
       <div style="position:relative;z-index:1;">
         <div class="eyebrow">Ready to Transform Your Operations?</div>
-        <h2>Let's build the future of<br><span class="accent">water distribution.</span> Together.</h2>
+        <h2>Let's build the future of water distribution. Together.</h2>
         <p>Book a demo to see how Vertical WMS can streamline your operations and accelerate your growth.</p>
-        <a href="#pricing" class="btn btn-lime">Book a Demo <span class="btn-arrow"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a href="#pricing" class="btn btn-light">Book a Demo <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <div class="cta-visual">
-        <div class="cta-laptop">
-          <div class="laptop-bar"><span></span><span></span><span></span></div>
-          <div class="laptop-screen">
-            <div class="mini-row"><span class="mini-h">Operations Dashboard</span><span class="mini-pill">Live</span></div>
-            <div class="mini-kpis">
-              <div class="mini-kpi"><b>AED 248K</b><span>Revenue</span></div>
-              <div class="mini-kpi"><b>2,000</b><span>Customers</span></div>
-              <div class="mini-kpi"><b>25</b><span>Drivers</span></div>
+        <div class="browser" style="box-shadow:0 30px 70px rgba(0,0,0,0.25);">
+          <div class="browser-bar" style="background:#f1f5f9;"><i></i><i></i><i></i></div>
+          <div class="dash">
+            <div class="dash-head"><div><h4>Operations Dashboard</h4><div class="sub">Live · This week</div></div></div>
+            <div class="kpi-row" style="grid-template-columns:1fr 1fr 1fr;">
+              <div class="kpi b"><div class="kt">Revenue</div><div class="kv">AED 248K</div><div class="kic" style="background:linear-gradient(135deg,#3b9eff,#1b7ae6);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div></div>
+              <div class="kpi p"><div class="kt">Customers</div><div class="kv">2,000</div><div class="kic" style="background:linear-gradient(135deg,#a78bfa,#8b5cf6);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div></div>
+              <div class="kpi g"><div class="kt">Drivers</div><div class="kv">25</div><div class="kic" style="background:linear-gradient(135deg,#4ade80,#16a34a);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/></svg></div></div>
             </div>
-            <div class="mini-chart"><i style="height:35%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:60%"></i><i style="height:82%"></i><i style="height:72%"></i><i style="height:92%"></i><i style="height:68%"></i><i style="height:88%"></i><i style="height:78%"></i><i style="height:96%"></i></div>
+            <div class="chartbox"><svg class="chart-area" viewBox="0 0 320 70" fill="none" preserveAspectRatio="none"><defs><linearGradient id="cg3" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#2f8ff7" stop-opacity="0.25"/><stop offset="1" stop-color="#2f8ff7" stop-opacity="0"/></linearGradient></defs><path d="M0 62 C50 58 80 22 120 20 C170 17 200 46 250 50 C290 53 305 44 320 42 L320 70 L0 70 Z" fill="url(#cg3)"/><path d="M0 62 C50 58 80 22 120 20 C170 17 200 46 250 50 C290 53 305 44 320 42" stroke="#2f8ff7" stroke-width="2" fill="none"/></svg></div>
           </div>
         </div>
       </div>
@@ -773,11 +741,11 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <a href="#" class="logo">VERTICAL<span class="dot"></span></a>
-        <p>The complete water management system for modern distributors.</p>
+        <p>The complete water management system for modern UAE distributors.</p>
         <div class="foot-soc">
-          <a href="#"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.76-2.05C20.4 8.65 21 11.1 21 14.27V21h-4v-5.96c0-1.42-.03-3.25-1.98-3.25-1.98 0-2.28 1.55-2.28 3.15V21H9z"/></svg></a>
-          <a href="#"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 3.3a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zm0 10.7a4.2 4.2 0 1 1 0-8.4 4.2 4.2 0 0 1 0 8.4zm6.8-10.95a1.52 1.52 0 1 1-3.04 0 1.52 1.52 0 0 1 3.04 0z"/></svg></a>
-          <a href="#"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9 3.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="2"/></svg></a>
+          <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.76-2.05C20.4 8.65 21 11.1 21 14.27V21h-4v-5.96c0-1.42-.03-3.25-1.98-3.25-1.98 0-2.28 1.55-2.28 3.15V21H9z"/></svg></a>
+          <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 3.3a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zm0 10.7a4.2 4.2 0 1 1 0-8.4 4.2 4.2 0 0 1 0 8.4zm6.8-10.95a1.52 1.52 0 1 1-3.04 0 1.52 1.52 0 0 1 3.04 0z"/></svg></a>
+          <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></a>
         </div>
       </div>
       <div class="foot-col"><h4>Product</h4><ul><li><a href="#experiences">Overview</a></li><li><a href="#features">Features</a></li><li><a href="#panels">Integrations</a></li><li><a href="#pricing">Pricing</a></li></ul></div>
@@ -793,11 +761,17 @@
 </footer>
 
 <script>
+  // FAQ accordion
   function tg(b){
     const i=b.closest('.faq'), open=i.classList.contains('open');
     document.querySelectorAll('.faq').forEach(e=>e.classList.remove('open'));
     if(!open) i.classList.add('open');
   }
+  // Smooth reveal-on-scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 
 </body>
